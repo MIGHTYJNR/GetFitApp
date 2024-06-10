@@ -1,0 +1,36 @@
+﻿@using GetFitApp.Models.Specialization
+@model SpecializationViewModel
+
+@{
+    ViewData["Title"] = "Update Specialization";
+}
+
+<h2>@ViewData["Title"]</h2>
+<hr>
+
+<form method="post" class="mb-3">
+    <div class="mb-3">
+        <label asp-for="Id" class="col-sm-2 col-form-label"></label>
+        <input asp-for="Id" disabled class="form-control">
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="SpecializationName" class="form-label"></label>
+        <input type="text" class="form-control" asp-for="SpecializationName">
+        <span asp-validation-for="SpecializationName" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="IsAvailable" class="control-label"></label>
+        <input type="checkbox" asp-for="IsAvailable" />
+        <span asp-validation-for="IsAvailable" class=""></span>
+    </div>
+
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="form-group row">
+        <div>
+            <button style="width:auto" type="submit" class="btn btn-success">Update</button>
+            <a style="width:auto" asp-action="ListSpecialization" class="btn btn-primary">Cancle</a>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,24 @@
+﻿@model GetFitApp.Models.Specialization.CreateSpecializationViewModel
+
+@{
+    ViewData["Title"] = "Create New Specialization";
+}
+
+<h2>@ViewData["Title"]</h2>
+<hr>
+
+<form asp-action="CreateSpecialization" method="post">
+
+    <div class="mb-3">
+        <label asp-for="SpecializationName" class="form-label"></label>
+        <input type="text" class="form-control" asp-for="SpecializationName">
+        <span asp-validation-for="SpecializationName" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="IsAvailable" class="control-label"></label>
+        <input type="checkbox" asp-for="IsAvailable"/>
+        <span asp-validation-for="IsAvailable" class=""></span>
+    </div>
+
+    <button type="submit" class="btn btn-success">Create</button>
+</form>

@@ -1,0 +1,32 @@
+﻿@using GetFitApp.Data.Entities
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+<ul class="navbar-nav">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
+        </li>
+        <li class="nav-item">
+            <a asp-controller="Member" asp-action="Index" class="nav-link link-body-emphasis text-dark px-2">
+                Dashboard
+            </a>
+        </li>
+        <li class="nav-item">
+            <a asp-controller="Auth" asp-controller="Home" asp-action="Logout" class="nav-link link-body-emphasis text-dark px-2">
+                Log Out
+            </a>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-action="SignUp" asp-controller="Auth">SignUp</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-action="Login" asp-controller="Auth">Login</a>
+        </li>
+    }
+</ul>
