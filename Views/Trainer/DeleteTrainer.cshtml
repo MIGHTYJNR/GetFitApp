@@ -1,0 +1,19 @@
+﻿@model GetFitApp.Models.Trainer.TrainerDetailsViewModel
+
+@{
+    ViewData["Title"] = "Delete Details";
+}
+
+<h2>@ViewData["Title"]</h2>
+<hr />
+
+<div>
+    <h4>Confirm Deletion</h4>
+    <p>Are you sure you want to delete your details?</p>
+    <form asp-action="DeleteTrainer" asp-controller="Trainer">
+        <div>
+            <input type="submit" value="Delete" class="btn btn-danger" />
+            <a style="width:auto" asp-action="Index" class="btn btn-primary">Cancle</a>
+        </div>
+    </form>
+</div>

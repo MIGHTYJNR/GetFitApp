@@ -20,7 +20,7 @@
                 Specialization Id : @specialization.Id
             </div>
             <div class="card-body">
-                <h5 class="card-title">@specialization.SpecializationName</h5>
+                <h5 class="card-title">Name: @specialization.SpecializationName</h5>
                 <h5>@(specialization.IsAvailable ? "Available" : "Not Available")</h5>
             </div>
             <div class="card-footer">
@@ -41,15 +41,15 @@ else
 {
 <div class="card">
     <div class="card-header">
-        No roles created yet
+        No specialization created yet
     </div>
     <div class="card-body">
-        <h5 class="card-title">
-            Use the button below to create a role
-        </h5>
+        <h6 class="card-title">
+            Use the button below to create a specialization
+        </h6>
         <a class="btn btn-primary" style="width:auto"
-           asp-controller="administration" asp-action="CreateRole">
-            Create Role
+           asp-controller="specialization" asp-action="CreateSpecialization">
+            Create Specialization
         </a>
     </div>
 </div>

@@ -1,0 +1,40 @@
+﻿@model GetFitApp.Models.MembershipType.CreateMembershipTypeViewModel
+
+@{
+    ViewData["Title"] = "Create New Membership Type";
+}
+
+<h2>@ViewData["Title"]</h2>
+<hr>
+
+<form asp-action="CreateMembershipType" method="post">
+
+    <div class="mb-3">
+        <label asp-for="MembershipTypeName" class="form-label"></label>
+        <input type="text" class="form-control" asp-for="MembershipTypeName">
+        <span asp-validation-for="MembershipTypeName" class="text-danger"></span>
+    </div>
+
+
+    <div class="mb-3">
+        <label asp-for="Duration" class="form-label"></label>
+        <select asp-for="Duration" class="form-control">
+            <option value="" selected hidden disabled>Select Duration Type</option>
+            @foreach (var duration in Enum.GetValues(typeof(GetFitApp.Data.Enums.DurationType)))
+            {
+                <option value="@duration">@duration</option>
+            }
+        </select>
+        <span asp-validation-for="Duration" class="text-danger"></span>
+    </div>
+
+
+    <div class="mb-3">
+        <label asp-for="Amount" class="form-label"></label>
+        <input type="text" class="form-control" asp-for="Amount">
+        <span asp-validation-for="Amount" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-success">Create</button>
+    <a style="width:auto" asp-action="ListMembershipType" class="btn btn-primary">Cancle</a>
+</form>

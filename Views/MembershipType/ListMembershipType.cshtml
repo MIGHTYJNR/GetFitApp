@@ -1,0 +1,57 @@
+﻿@using GetFitApp.Models.MembershipType
+@model List<MembershipTypeViewModel>
+
+@{
+    ViewData["Title"] = "List of Membership Types";
+}
+
+<h2>@ViewData["Title"]</h2>
+<hr />
+
+
+@if (Model.Any())
+{
+    <a class="btn btn-primary mb-3" style="width:auto" asp-controller="MembershipType"
+       asp-action="CreateMembershipType">Create new membership type</a>
+    @foreach (var membershipType in Model)
+    {
+        <div class="card mb-3">
+            <div class="card-header">
+                Membership Type Id : @membershipType.Id
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Name: @membershipType.MembershipTypeName.ToUpper()</h5>
+                <h5 class="card-title">Duration: @membershipType.Duration.ToString().ToUpper()</h5>
+                <h5 class="card-title">Price: @membershipType.Amount</h5>
+            </div>
+            <div class="card-footer">
+                <form asp-action="DeleteMembershipType" asp-route-id="@membershipType.Id" method="post">
+                    <a class="btn btn-primary" asp-action="UpdateMembershipType"
+                       asp-controller="MembershipType" asp-route-id="@membershipType.Id">Update</a>
+
+                    <button type="submit" class="btn btn-danger"
+                            onclick="return confirm('Are you sure you want to delete membership type : @membershipType.MembershipTypeName')">
+                        Delete
+                    </button>
+                </form>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <div class="card">
+        <div class="card-header">
+            No membership type created yet
+        </div>
+        <div class="card-body">
+            <h6 class="card-title">
+                Use the button below to create a membership type
+            </h6>
+            <a class="btn btn-primary" style="width:auto"
+               asp-controller="MembershipType" asp-action="CreateMembershipType">
+                Create Membership Type
+            </a>
+        </div>
+    </div>
+}

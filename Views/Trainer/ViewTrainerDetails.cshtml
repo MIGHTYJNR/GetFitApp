@@ -1,0 +1,68 @@
+﻿@model GetFitApp.Models.Trainer.TrainerDetailsViewModel
+
+@{
+    ViewData["Title"] = "My Details";
+}
+
+<h2>@ViewData["Title"]</h2>
+<hr />
+
+<div class="ViewMemberDetails">
+
+    <div class="mb-3">
+        <label class="form-label" >Full Name:</label>
+        <output type="text" class="form-control">
+            @string.Join(" ", new[] { Model.Firstname, Model.Lastname, Model.Middlename }.Where(s => !string.IsNullOrEmpty(s)))
+        </output>
+    </div>
+
+
+    <div class="mb-3">
+        <label asp-for="SpecializationId" class="form-label"></label>
+        <output type="text" class="form-control" asp-for="SpecializationId">
+            @Model.SpecializationName
+        </output>
+        <span asp-validation-for="SpecializationId" class="text-danger"></span>
+    </div>
+
+
+    <div class="mb-3">
+        <label asp-for="Email" class="form-label"></label>
+        <output type="email" class="form-control" asp-for="Email">@Model.Email</output>
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+
+    <div class="mb-3">
+        <label asp-for="PhoneNumber" class="form-label"></label>
+        <output type="text" class="form-control" asp-for="PhoneNumber">@Model.PhoneNumber</output>
+        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+    </div>
+
+
+    <div class="mb-3">
+        <label asp-for="Age" class="form-label"></label>
+        <output type="text" class="form-control" asp-for="Age">@Model.Age</output>
+        <span asp-validation-for="Age" class="text-danger"></span>
+    </div>
+
+
+    <div class="mb-3">
+        <label asp-for="Gender" class="form-label"></label>
+        <output type="text" class="form-control" asp-for="Gender">@Model.Gender</output>
+        <span asp-validation-for="Gender" class="text-danger"></span>
+    </div>
+
+
+    <div class="mb-3">
+        <label asp-for="Address" class="form-label"></label>
+        <output type="text" class="form-control" asp-for="Address">@Model.Address</output>
+        <span asp-validation-for="Address" class="text-danger"></span>
+    </div>
+
+
+    <div>
+        <a asp-action="UpdateTrainerDetails" asp-controller="Trainer">Update</a>
+        <a asp-action="DeleteTrainer" asp-controller="Trainer">Delete</a>
+    </div>
+</div>

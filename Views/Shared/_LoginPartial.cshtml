@@ -1,4 +1,5 @@
-﻿@using GetFitApp.Data.Entities
+﻿@using GetFitApp.Data.Enums
+@using GetFitApp.Data.Entities
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
@@ -10,9 +11,21 @@
             <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
         </li>
         <li class="nav-item">
-            <a asp-controller="Member" asp-action="Index" class="nav-link link-body-emphasis text-dark px-2">
-                Dashboard
-            </a>
+            @{
+                var user = await UserManager.GetUserAsync(User);
+                if (user.UserType == UserType.Member)
+                {
+                    <a asp-controller="Member" asp-action="Index" class="nav-link link-body-emphasis text-dark px-2">
+                        Dashboard
+                    </a>
+                }
+                else
+                {
+                    <a asp-controller="Trainer" asp-action="Index" class="nav-link link-body-emphasis text-dark px-2">
+                        Dashboard
+                    </a>
+                }
+            }
         </li>
         <li class="nav-item">
             <a asp-controller="Auth" asp-controller="Home" asp-action="Logout" class="nav-link link-body-emphasis text-dark px-2">

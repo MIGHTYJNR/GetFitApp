@@ -7,44 +7,44 @@ namespace GetFitApp.Models.Member
     {
         public int Id { get; set; }
 
-        [Display(Name = "Firstname")]
+        [Display(Name = "Firstname:")]
         public string Firstname { get; set; } = default!;
 
-        [Display(Name = "Lastname")]
+        [Display(Name = "Lastname:")]
         public string Lastname { get; set; } = default!;
 
-        [Display(Name = "Middlename")]
+        [Display(Name = "Middlename:")]
         public string Middlename { get; set; } = default!;
 
-        [Display(Name = "Email")]
+        [Display(Name = "Email:")]
         public string Email { get; set; } = default!;
 
-        [Display(Name = "Phone Number")]
+        [Display(Name = "Phone Number:")]
         public string PhoneNumber { get; set; } = default!;
 
-        [Display(Name = "Age")]
+        [Display(Name = "Age:")]
         public int Age { get; set; }
 
-        [Display(Name = "Gender")]
+        [Display(Name = "Gender:")]
         public Gender Gender { get; set; } = default!;
 
-        [Display(Name = "Address")]
+        [Display(Name = "Address:")]
         public string Address { get; set; } = default!;
 
-        [Display(Name = "Emergency Contact")]
+        [Display(Name = "Emergency Contact:")]
         public string EmergencyContact { get; set; } = default!;
 
-        [Display(Name = "Fitness Goals")]
+        [Display(Name = "Fitness Goals:")]
         public string FitnessGoal { get; set; } = default!;
 
-        [Display(Name = "Fitness Class")]
+        [Display(Name = "Fitness Class:")]
         public string FitnessClassName { get; set; } = default!;
         public List<Guid> FitnessClassIds { get; set; } = new List<Guid>();
 
-        [Display(Name = "Membership Type")]
+        [Display(Name = "Membership Type:")]
         public Guid MembershipTypeId { get; set; } = default!;
 
-        [Display(Name = "Preferred Trainer")]
+        [Display(Name = "Preferred Trainer:")]
         public Guid TrainerId { get; set; } = default!;
 
         public string FitnessClassSchedule { get; set; } = default!;

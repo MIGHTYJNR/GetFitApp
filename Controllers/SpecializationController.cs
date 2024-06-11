@@ -2,7 +2,6 @@
 using GetFitApp.Data.Entities;
 using GetFitApp.Data;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GetFitApp.Models.Specialization;

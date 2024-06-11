@@ -10,23 +10,10 @@
 <div class="ViewMemberDetails">
 
     <div class="mb-3">
-        <label asp-for="Firstname" class="form-label"></label>
-        <output type="text" class="form-control" asp-for="Name">@Model.Firstname</output>
-        <span asp-validation-for="Firstname" class="text-danger"></span>
-    </div>
-
-
-    <div class="mb-3">
-        <label asp-for="Lastname" class="form-label"></label>
-        <output type="text" class="form-control" asp-for="Name">@Model.Lastname</output>
-        <span asp-validation-for="Lastname" class="text-danger"></span>
-    </div>
-
-
-    <div class="mb-3">
-        <label asp-for="Middlename" class="form-label"></label>
-        <output type="text" class="form-control" asp-for="Name">@Model.Middlename</output>
-        <span asp-validation-for="Middlename" class="text-danger"></span>
+        <label class="form-label">Full Name</label>
+        <output type="text" class="form-control">
+            @string.Join(" ", new[] { Model.Firstname, Model.Lastname, Model.Middlename }.Where(s => !string.IsNullOrEmpty(s)))
+        </output>
     </div>
 
 
