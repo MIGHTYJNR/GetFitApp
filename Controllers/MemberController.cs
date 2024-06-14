@@ -30,19 +30,27 @@ public class MemberController(UserManager<User> userManager,
 
     public IActionResult MemberRegistration()
     {
-        var membershipTypes = _getFitDbContext.MembershipTypes.Select(mt => new SelectListItem
+        var membershipTypes = _getFitDbContext.MembershipTypes
+            .OrderBy(mt => mt.Duration)
+            .Select(mt => new SelectListItem
         {
             Text = mt.MembershipTypeName,
             Value = mt.Id.ToString()
         }).ToList();
 
-        var trainers = _getFitDbContext.Trainers.Select(t => new SelectListItem
+        var trainers = _getFitDbContext.Trainers
+            .Include(t => t.Specialization)
+            .OrderBy(t => t.Firstname)
+            .Select(t => new SelectListItem
         {
-            Text = t.Firstname,
+
+            Text = t.Firstname + " " + t.Lastname + " [" + t.Specialization.SpecializationName + "]",
             Value = t.Id.ToString()
         }).ToList();
 
-        var fitnessClasses = _getFitDbContext.FitnessClasses.Select(fc => new SelectListItem
+        var fitnessClasses = _getFitDbContext.FitnessClasses
+            .OrderBy(fc => fc.Schedule)
+            .Select(fc => new SelectListItem
         {
             Text = fc.Name,
             Value = fc.Id.ToString()
@@ -64,6 +72,7 @@ public class MemberController(UserManager<User> userManager,
         var memberExist = await _getFitDbContext.MemberDetails.AnyAsync(x => x.PhoneNumber == model.PhoneNumber || x.Email == model.Email);
 
         var userDetail = await Helper.GetCurrentUserIdAsync(_httpContextAccessor, _userManager);
+        //var memberExist = await _getFitDbContext.MemberDetails.AnyAsync(x => x.UserId == userDetail.userId);
 
         if (memberExist)
         {

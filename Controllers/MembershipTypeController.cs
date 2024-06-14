@@ -2,7 +2,6 @@
 using GetFitApp.Data;
 using GetFitApp.Data.Entities;
 using GetFitApp.Models.MembershipType;
-using GetFitApp.Models.Specialization;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -45,6 +44,7 @@ public class MembershipTypeController(INotyfService notyf, GetFitContext getFitD
                 MembershipTypeName = model.MembershipTypeName,
                 Duration = model.Duration,
                 Amount = model.Amount,
+                CreatedDate = model.CreatedDate
             };
 
             await _getFitDbContext.MembershipTypes.AddAsync(membershipType);
@@ -94,7 +94,8 @@ public class MembershipTypeController(INotyfService notyf, GetFitContext getFitD
             MembershipTypeName = membershipTypes.MembershipTypeName,
             Duration = membershipTypes.Duration,
             Amount = membershipTypes.Amount,
-        };
+            
+    };
 
         return View(model);
     }
@@ -117,6 +118,7 @@ public class MembershipTypeController(INotyfService notyf, GetFitContext getFitD
                 membershipType.MembershipTypeName = model.MembershipTypeName;
                 membershipType.Duration = model.Duration;
                 membershipType.Amount = model.Amount;
+                membershipType.ModifiedDate = model.ModifiedDate;
 
                 _getFitDbContext.Update(membershipType);
                 var result = await _getFitDbContext.SaveChangesAsync();

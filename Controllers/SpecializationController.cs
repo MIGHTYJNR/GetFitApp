@@ -43,7 +43,8 @@ public class SpecializationController(INotyfService notyf, GetFitContext getFitD
             var specialization = new Specialization
             {
                 SpecializationName = model.SpecializationName,
-                IsAvailable = true 
+                IsAvailable = true,
+                CreatedDate = model.CreatedDate
             };
 
             await _getFitDbContext.Specializations.AddAsync(specialization);
@@ -113,6 +114,7 @@ public class SpecializationController(INotyfService notyf, GetFitContext getFitD
             {
                 specialization.SpecializationName = model.SpecializationName;
                 specialization.IsAvailable = model.IsAvailable;
+                specialization.ModifiedDate = model.ModifiedDate;
 
                 _getFitDbContext.Update(specialization);
                 var result = await _getFitDbContext.SaveChangesAsync();

@@ -6,6 +6,9 @@ namespace GetFitApp.Models.Trainer
 {
     public class TrainerViewModel
     {
+        public DateTime CreatedDate = DateTime.UtcNow;
+        public DateTime ModifiedDate = DateTime.UtcNow;
+
         [Display(Name = "Firstname")]
         [Required]
         public string Firstname { get; set; } = default!;
@@ -43,5 +46,6 @@ namespace GetFitApp.Models.Trainer
         [Required(ErrorMessage = "Please select area of specialization")]
         public Guid SpecializationId { get; set; }
         public List<SelectListItem> Specializations { get; set; } = new List<SelectListItem>();
+        
     }
 }

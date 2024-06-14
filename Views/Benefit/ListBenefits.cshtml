@@ -1,0 +1,56 @@
+﻿@using GetFitApp.Models.Benefit
+@model List<BenefitViewModel>
+
+@{
+    ViewData["Title"] = "List of Benefits";
+}
+
+<h2>@ViewData["Title"]</h2>
+<hr />
+
+@if (Model.Any())
+{
+    <a class="btn btn-primary mb-3" style="width:auto" asp-controller="Benefit"
+       asp-action="CreateBenefit">Add new benefit</a>
+    @foreach (var benefit in Model)
+    {
+        <div class="card mb-3">
+            <div class="card-header">
+                Benefit Id : @benefit.Id
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Membership Type Name : @benefit.MembershipTypeName</h5>
+                <h5 class="card-title">Benefit: @benefit.Name</h5>
+                <h6>Description: @benefit.Description</h6>
+            </div>
+            <div class="card-footer">
+                <form asp-action="DeleteBenefit" asp-route-id="@benefit.Id" method="post">
+                    <a class="btn btn-primary" asp-action="UpdateBenefit"
+                       asp-controller="Benefit" asp-route-id="@benefit.Id">Update</a>
+
+                    <button type="submit" class="btn btn-danger"
+                            onclick="return confirm('Are you sure you want to delete @benefit.MembershipTypes benefit')">
+                        Delete
+                    </button>
+                </form>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <div class="card">
+        <div class="card-header">
+            No benefit created yet
+        </div>
+        <div class="card-body">
+            <h6 class="card-title">
+                Use the button below to create a benefit
+            </h6>
+            <a class="btn btn-primary" style="width:auto"
+               asp-controller="benefit" asp-action="CreateBenefit">
+                Create Benefit
+            </a>
+        </div>
+    </div>
+}

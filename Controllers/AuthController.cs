@@ -108,7 +108,7 @@ IHttpContextAccessor httpContextAccessor) : Controller
             }
 
             _notyfService.Success("Registration was successful");
-            await _signInManager.SignInAsync(user, isPersistent: false);
+            //await _signInManager.SignInAsync(user, isPersistent: false);
 
             return RedirectToAction("Login", "Auth");
         }

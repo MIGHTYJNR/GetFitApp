@@ -29,6 +29,7 @@ public class TrainerController(UserManager<User> userManager,
     public IActionResult TrainerRegistration()
     {
         var specializations = _getFitDbContext.Specializations
+            .OrderBy(s => s.SpecializationName)
             .Where(s => s.IsAvailable)
             .Select(s => new SelectListItem
         {
@@ -47,9 +48,8 @@ public class TrainerController(UserManager<User> userManager,
     [HttpPost("Trainer/TrainerRegistration")]
     public async Task<IActionResult> TrainerRegistration(TrainerViewModel model)
     {
-        var trainerExist = await _getFitDbContext.Trainers.AnyAsync(x => x.PhoneNumber == model.PhoneNumber || x.Email == model.Email);
-
         var userDetail = await Helper.GetCurrentUserIdAsync(_httpContextAccessor, _userManager);
+        var trainerExist = await _getFitDbContext.Trainers.AnyAsync(x => x.UserId == userDetail.userId);
 
         if (trainerExist)
         {
@@ -68,7 +68,8 @@ public class TrainerController(UserManager<User> userManager,
             Age = model.Age,
             Gender = model.Gender,
             Address = model.Address,
-            SpecializationId = model.SpecializationId
+            SpecializationId = model.SpecializationId,
+            CreatedDate = model.CreatedDate
         };
 
         await _getFitDbContext.AddAsync(trainer);
@@ -158,6 +159,7 @@ public class TrainerController(UserManager<User> userManager,
                 trainer.Gender = model.Gender;
                 trainer.Address = model.Address;
                 trainer.SpecializationId = model.SpecializationId;
+                trainer.ModifiedDate = model.ModifiedDate;
 
                 _getFitDbContext.Update(trainer);
                 await _getFitDbContext.SaveChangesAsync();

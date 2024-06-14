@@ -1,0 +1,38 @@
+﻿@model GetFitApp.Models.Benefit.BenefitViewModel
+@{
+    ViewData["Title"] = "Create New Benefit";
+}
+
+<h2>@ViewData["Title"]</h2>
+<hr>
+
+<form asp-action="CreateBenefit" method="post">
+
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label"></label>
+        <input type="text" class="form-control" asp-for="Name">
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label"></label>
+        <input type="text" class="form-control" asp-for="Description">
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+
+    <div class="mb-3">
+        <label asp-for="MembershipTypeId" class="form-label"></label>
+        <select asp-for="MembershipTypeId" class="form-control">
+            <option value="" selected hidden disabled>Select a Membership Type</option>
+            @foreach (var item in Model.MembershipTypes)
+            {
+                <option value="@item.Value">@item.Text</option>
+            }
+        </select>
+        <span asp-validation-for="MembershipTypeId" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-success">Create</button>
+    <a style="width:auto" asp-action="ListBenefits" class="btn btn-primary">Cancle</a>
+</form>
