@@ -72,7 +72,7 @@ public class BenefitController(INotyfService notyf, GetFitContext getFitDbContex
         }
 
         _notyfService.Error("An error occurred while creating benefit");
-        return View(model);
+        return RedirectToAction("CreateBenefit");
     }
 
 
@@ -80,7 +80,7 @@ public class BenefitController(INotyfService notyf, GetFitContext getFitDbContex
     public IActionResult ListBenefits()
     {
         var benefit = _getFitDbContext.Benefits
-            .Include(t => t.MembershipType)
+            .Include(b => b.MembershipType)
             .Select(b => new BenefitViewModel
         {
             Id = b.Id,
@@ -133,15 +133,23 @@ public class BenefitController(INotyfService notyf, GetFitContext getFitDbContex
                 benefitExists.ModifiedDate = model.ModifiedDate;
 
                 _getFitDbContext.Update(benefitExists);
-                await _getFitDbContext.SaveChangesAsync();
+                var result = await _getFitDbContext.SaveChangesAsync();
 
-                _notyfService.Success("Benefit details updated successfully");
-                return RedirectToAction("ListBenefits", "Benefit");
+                if (result > 0)
+                {
+                    _notyfService.Success("Benefit details updated successfully");
+                    return RedirectToAction("ListBenefits");
+                }
+                else
+                {
+                    _notyfService.Error("Error! update not successful");
+                    return View(model);
+                }
             }
         }
 
-        _notyfService.Error("An error occurred while creating benefit");
-        return View(model);
+        _notyfService.Error("An error occurred while updating benefit");
+        return RedirectToAction("UpdateBenefit");
     }
 
 
@@ -166,7 +174,7 @@ public class BenefitController(INotyfService notyf, GetFitContext getFitDbContex
         }
         else
         {
-            _notyfService.Error("An error occurred while deleting specialization");
+            _notyfService.Error("An error occurred while deleting benefit");
             return RedirectToAction("ListBenefits");
         }
     }

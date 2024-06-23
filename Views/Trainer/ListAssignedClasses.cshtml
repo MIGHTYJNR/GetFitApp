@@ -1,0 +1,31 @@
+﻿@using GetFitApp.Models.Trainer
+@model List<TrainerDetailsViewModel>
+
+@{
+    ViewData["Title"] = "Class Schedules";
+}
+
+<h2>@ViewData["Title"]</h2>
+<hr />
+
+@if (Model.Any())
+{
+    @foreach (var fitnessClass in Model)
+    {
+        <div class="mb-3">
+            <div class="form-control">
+                Name: @fitnessClass.Name.ToUpper() <br />
+                Schedule: @fitnessClass.Schedule | Duration: @fitnessClass.Duration minutes
+            </div>
+        </div>
+    }
+    <div class="text-center">
+        <h6 class="display-6">A Good Day To Unleash Your Potential & Help Transform A Gems' Body</h6>
+    </div>
+}
+else
+{
+    <h6 class="mb-3">
+        No class assigned yet.
+    </h6>
+}

@@ -1,0 +1,20 @@
+﻿@model GetFitApp.AdminViewModel.CreateRoleViewModel
+
+@{
+    ViewData["Title"] = "Create New Role";
+}
+
+<h2>@ViewData["Title"]</h2>
+<hr>
+
+<form asp-action="CreateRole">
+
+    <div class="mb-3">
+        <label asp-for="RoleName" class="form-label"></label>
+        <input type="text" class="form-control" asp-for="RoleName">
+        <span asp-validation-for="RoleName" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-success">Create Role</button>
+</form>
+

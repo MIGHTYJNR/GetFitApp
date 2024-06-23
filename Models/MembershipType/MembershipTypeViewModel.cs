@@ -8,13 +8,13 @@ namespace GetFitApp.Models.MembershipType
         public Guid Id { get; set; }
         public DateTime ModifiedDate = DateTime.UtcNow;
 
-        [Display(Name = "Membership Type Name")]
+        [Display(Name = "Membership Type Name:")]
         public string MembershipTypeName { get; set; } = default!;
 
-        [Display(Name = "Duration Type")]
+        [Display(Name = "Duration Type:")]
         public DurationType Duration { get; set; } = default!;
 
-        [Display(Name = "Price")]
+        [Display(Name = "Price:")]
         public decimal Amount { get; set; }
     }
 }

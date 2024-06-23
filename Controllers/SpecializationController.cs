@@ -65,7 +65,9 @@ public class SpecializationController(INotyfService notyf, GetFitContext getFitD
     [HttpGet]
     public IActionResult ListSpecialization()
     {
-        var specializations = _getFitDbContext.Specializations.Select(s => new SpecializationViewModel
+        var specializations = _getFitDbContext.Specializations
+            .OrderBy(s => s.SpecializationName)
+            .Select(s => new SpecializationViewModel
         {
             Id = s.Id,
             SpecializationName = s.SpecializationName,

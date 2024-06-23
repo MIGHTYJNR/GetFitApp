@@ -16,9 +16,6 @@
     @foreach (var membershipType in Model)
     {
         <div class="card mb-3">
-            <div class="card-header">
-                Membership Type Id : @membershipType.Id
-            </div>
             <div class="card-body">
                 <h5 class="card-title">Name: @membershipType.MembershipTypeName.ToUpper()</h5>
                 <h5 class="card-title">Duration: @membershipType.Duration.ToString().ToUpper()</h5>
@@ -37,6 +34,7 @@
             </div>
         </div>
     }
+    <p>Total Membership Types: @Model.Count()</p>
 }
 else
 {

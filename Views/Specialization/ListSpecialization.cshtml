@@ -16,9 +16,6 @@
     @foreach (var specialization in Model)
     {
         <div class="card mb-3">
-            <div class="card-header">
-                Specialization Id : @specialization.Id
-            </div>
             <div class="card-body">
                 <h5 class="card-title">Name: @specialization.SpecializationName</h5>
                 <h5>@(specialization.IsAvailable ? "Available" : "Not Available")</h5>
@@ -36,6 +33,7 @@
             </div>
         </div>
     }
+    <p>Total Specializations: @Model.Count()  ||  Is Available: @Model.Count(s => s.IsAvailable)</p>
 }
 else
 {

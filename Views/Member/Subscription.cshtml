@@ -1,0 +1,27 @@
+﻿@model GetFitApp.Models.Member.SubscriptionViewModel
+@{
+    ViewData["Title"] = "Subscription";
+}
+
+<h2>@ViewData["Title"]</h2>
+<hr />
+
+<form asp-controller="Member" asp-action="Subscription" method="post">
+    <p>To continue enjoying the unique experiences tailored to your lifestyle kindly renew your subscription</p>
+    <div class="mb-3">
+        <label asp-for="MembershipTypeId" class="form-label"></label>
+        <select asp-for="MembershipTypeId" class="form-control">
+            <option value="" selected hidden disabled>Select Membership Type</option>
+            @foreach (var item in Model.MembershipTypes)
+            {
+                <option value="@item.Value">@item.Text</option>
+            }
+        </select>
+        <span asp-validation-for="MembershipTypeId" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-success">Subscribe</button>
+    <a asp-controller="Auth" asp-controller="Home" asp-action="Logout" class="btn btn-primary">
+        Log Out
+    </a>
+</form>

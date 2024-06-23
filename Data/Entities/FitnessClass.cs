@@ -11,13 +11,6 @@ namespace GetFitApp.Data.Entities
         public Guid TrainerId { get; set; }
         public Trainer Trainer { get; set; } = default!;
 
-
-        //public int MemberDetailId { get; set; } = default!;
-        //   public Member Member { get; set; } = default!;
-
-        /*public int MemberDetailId { get; set; } = default!;*/
-        /*public Member Member { get; set; } = default!;*/
-
         public ICollection<Member> Members { get; set; } = default!;
     }
 

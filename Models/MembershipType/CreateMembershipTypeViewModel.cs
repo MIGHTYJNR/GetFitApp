@@ -8,15 +8,15 @@ namespace GetFitApp.Models.MembershipType
     {
         public DateTime CreatedDate = DateTime.UtcNow;
 
-        [Display(Name = "Membership Type Name")]
+        [Display(Name = "Membership Type Name:")]
         [Required(ErrorMessage = "Membership type name is required")]
         public string MembershipTypeName { get; set; } = default!;
 
-        [Display(Name = "Duration Type")]
+        [Display(Name = "Duration Type:")]
         [Required(ErrorMessage = "Please select duration")]
         public DurationType Duration { get; set; } = default!;
 
-        [Display(Name = "Price")]
+        [Display(Name = "Price:")]
         [Required(ErrorMessage = "Amount is required")]
         public decimal Amount { get; set; }
     }

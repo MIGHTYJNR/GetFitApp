@@ -1,0 +1,55 @@
+﻿@using GetFitApp.Models.FitnessClass
+@model List<FitnessClassViewModel>
+
+@{
+    ViewData["Title"] = "List of Fitness Classes";
+}
+
+<h2>@ViewData["Title"]</h2>
+<hr />
+
+@if (Model.Any())
+{
+    <a class="btn btn-primary mb-3" style="width:auto" asp-controller="FitnessClass"
+       asp-action="CreateFitnessClass">Add new fitness class</a>
+    @foreach (var fitnessClass in Model)
+    {
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Class Name : @fitnessClass.Name</h5>
+                <h5 class="card-title">Schedule: @fitnessClass.Schedule</h5>
+                <h5 class="card-title">Duration: @fitnessClass.Duration minutes</h5>
+                <h5 class="card-title">Trainer: @fitnessClass.TrainerName</h5>
+            </div>
+            <div class="card-footer">
+                <form asp-action="DeleteClass" asp-route-id="@fitnessClass.Id" method="post">
+                    <a class="btn btn-primary" asp-action="UpdateClass"
+                       asp-controller="FitnessClass" asp-route-id="@fitnessClass.Id">Update</a>
+
+                    <button type="submit" class="btn btn-danger"
+                            onclick="return confirm('Are you sure you want to delete @fitnessClass.Name class')">
+                        Delete
+                    </button>
+                </form>
+            </div>
+        </div>
+    }
+    <p>Total Classes: @Model.Count()</p>
+}
+else
+{
+    <div class="card">
+        <div class="card-header">
+            No fitness class created yet
+        </div>
+        <div class="card-body">
+            <h6 class="card-title">
+                Use the button below to create a fitness class
+            </h6>
+            <a class="btn btn-primary" style="width:auto"
+               asp-controller="FitnessClass" asp-action="CreateFitnessClass">
+                Create Fitness Class
+            </a>
+        </div>
+    </div>
+}

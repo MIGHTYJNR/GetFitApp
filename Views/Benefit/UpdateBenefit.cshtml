@@ -9,11 +9,6 @@
 
 <form method="post" class="mb-3">
     <div class="mb-3">
-        <label asp-for="Id" class="col-sm-2 col-form-label"></label>
-        <input asp-for="Id" disabled class="form-control">
-    </div>
-
-    <div class="mb-3">
         <label asp-for="Name" class="form-label"></label>
         <input type="text" class="form-control" asp-for="Name">
         <span asp-validation-for="Name" class="text-danger"></span>

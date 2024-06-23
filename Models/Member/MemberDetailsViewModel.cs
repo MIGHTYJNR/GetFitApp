@@ -6,6 +6,7 @@ namespace GetFitApp.Models.Member
     public class MemberDetailsViewModel
     {
         public int Id { get; set; }
+        public DateTime ExpiryDate { get; set; } = DateTime.MinValue;
 
         [Display(Name = "Firstname:")]
         public string Firstname { get; set; } = default!;
@@ -50,9 +51,8 @@ namespace GetFitApp.Models.Member
         public string FitnessClassSchedule { get; set; } = default!;
 
         public string MembershipTypeName { get; set; } = default!;
-        public string MembershipTypeBenefits { get; set; } = default!;
 
         public string TrainerName { get; set; } = default!;
-        public string TrainerSpecialization { get; set; } = default!;
+        public string? TrainerSpecialization { get; set; }
     }
 }

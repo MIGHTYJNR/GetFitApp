@@ -6,7 +6,7 @@ namespace GetFitApp.Models.Trainer
 {
     public class TrainerDetailsViewModel
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         [Display(Name = "Firstname:")]
         public string Firstname { get; set; } = default!;
@@ -36,5 +36,17 @@ namespace GetFitApp.Models.Trainer
 
         [Display(Name = "Address:")]
         public string Address { get; set; } = default!;
+
+        [Display(Name = "Fitness Goal:")]
+        public string FitnessGoal { get; set; } = default!;
+
+        [Display(Name = "Fitness Class:")]
+        public string Name { get; set; } = default!;
+
+        [Display(Name = "Class Schedule:")]
+        public string Schedule { get; set; } = default!;
+
+        [Display(Name = "Class Duration:")]
+        public int Duration { get; set; }
     }
 }

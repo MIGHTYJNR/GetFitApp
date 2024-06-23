@@ -15,9 +15,6 @@
     @foreach (var benefit in Model)
     {
         <div class="card mb-3">
-            <div class="card-header">
-                Benefit Id : @benefit.Id
-            </div>
             <div class="card-body">
                 <h5 class="card-title">Membership Type Name : @benefit.MembershipTypeName</h5>
                 <h5 class="card-title">Benefit: @benefit.Name</h5>
@@ -36,6 +33,7 @@
             </div>
         </div>
     }
+    <p>Total Benefits: @Model.Count()</p>
 }
 else
 {

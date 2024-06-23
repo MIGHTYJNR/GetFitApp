@@ -65,12 +65,14 @@ public class MembershipTypeController(INotyfService notyf, GetFitContext getFitD
     [HttpGet]
     public IActionResult ListMembershipType()
     {
-        var membershipTypes = _getFitDbContext.MembershipTypes.Select(s => new MembershipTypeViewModel
+        var membershipTypes = _getFitDbContext.MembershipTypes
+            .OrderBy(mt => mt.Duration)
+            .Select(mt => new MembershipTypeViewModel
         {
-            Id = s.Id,
-            MembershipTypeName = s.MembershipTypeName,
-            Duration = s.Duration,
-            Amount = s.Amount,
+            Id = mt.Id,
+            MembershipTypeName = mt.MembershipTypeName,
+            Duration = mt.Duration,
+            Amount = mt.Amount,
         }).ToList();
 
         return View(membershipTypes);
@@ -95,7 +97,7 @@ public class MembershipTypeController(INotyfService notyf, GetFitContext getFitD
             Duration = membershipTypes.Duration,
             Amount = membershipTypes.Amount,
             
-    };
+        };
 
         return View(model);
     }

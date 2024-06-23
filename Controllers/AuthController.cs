@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GetFitApp.Data.Entities;
 using GetFitApp.Models.Auth;
+using AspNetCoreHero.ToastNotification.Notyf;
 
 
 namespace GetFitApp.Controllers;
@@ -55,13 +56,24 @@ IHttpContextAccessor httpContextAccessor) : Controller
 
                     if (userType == UserType.Member)
                     {
+                        var memberDetails = await _getFitDbContext.MemberDetails.FirstOrDefaultAsync(x => x.UserId == userDetails.userId);
+
+                        if (memberDetails != null)
+                        {
+                            if (memberDetails.ExpiryDate < DateTime.Now)
+                            {
+                                _notyfService.Warning("Your subscription has expired '~'");
+                                return RedirectToAction("Subscription", "Member");
+                            }
+                        }
+                        _notyfService.Success("Login succesful");
                         return redirectResult;
                     }
                     else if (userType == UserType.Trainer)
                     {
+                        _notyfService.Success("Login succesful");
                         return redirectTrainerResult;
                     }
-                    _notyfService.Success("Login succesful");
                 }
             }
 
@@ -69,7 +81,6 @@ IHttpContextAccessor httpContextAccessor) : Controller
             _notyfService.Error("Invalid username or password");
             return View(model);
         }
-
         return View();
     }
 
@@ -106,10 +117,14 @@ IHttpContextAccessor httpContextAccessor) : Controller
                 _notyfService.Error("An error occured while registering user!");
                 return View();
             }
-
+            /*var userRoles = await _userManager.GetRolesAsync(user);
+            if (userRoles.Contains("Trainer"))
+            {
+                _notyfService.Success("AdminRegistration was successful");
+                return RedirectToAction("ListUsers", "Administration");
+            }*/
             _notyfService.Success("Registration was successful");
             //await _signInManager.SignInAsync(user, isPersistent: false);
-
             return RedirectToAction("Login", "Auth");
         }
 
@@ -119,7 +134,7 @@ IHttpContextAccessor httpContextAccessor) : Controller
     public async Task<IActionResult> Logout()
     {
         await _signInManager.SignOutAsync();
-
+        _notyfService.Information("Logout was successful");
         return RedirectToAction("Login", "Auth");
     }
 }

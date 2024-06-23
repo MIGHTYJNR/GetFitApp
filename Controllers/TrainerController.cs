@@ -206,5 +206,63 @@ public class TrainerController(UserManager<User> userManager,
             return RedirectToAction("TrainerRegistration", "Trainer");
         }
     }
+
+
+    [HttpGet]
+    public async Task<IActionResult> ListMembers()
+    {
+        var user = await _userManager.GetUserAsync(User);
+
+        var trainer = await _getFitDbContext.Trainers
+            .FirstOrDefaultAsync(t => t.UserId == user!.Id);
+
+        if (trainer != null)
+        {
+            var members = _getFitDbContext.MemberDetails
+                .Where(m => m.TrainerId == trainer.Id)
+                .OrderBy(m => m.Firstname)
+                .Select(m => new TrainerDetailsViewModel
+                {
+                    Id = m.Id,
+                    Firstname = m.Firstname,
+                    Lastname = m.Lastname,
+                    FitnessGoal = m.FitnessGoal
+                })
+                .ToList();
+
+            return View(members);
+        }
+        _notyfService.Error("An error occured");
+        return RedirectToAction("Index", "Trainer");
+    }
+
+
+    [HttpGet]
+    public async Task<IActionResult> ListAssignedClasses()
+    {
+        var user = await _userManager.GetUserAsync(User);
+
+        var trainer = await _getFitDbContext.Trainers
+            .FirstOrDefaultAsync(t => t.UserId == user!.Id);
+
+        if (trainer != null)
+        {
+            var fitnessClass = _getFitDbContext.FitnessClasses
+                .Where(fc => fc.TrainerId == trainer.Id)
+                .OrderBy(fc => fc.Name)
+                .Select(fc => new TrainerDetailsViewModel
+                {
+                    Id = fc.Id,
+                    Name = fc.Name,
+                    Schedule = fc.Schedule,
+                    Duration = fc.Duration
+                })
+                .ToList();
+
+            return View(fitnessClass);
+        }
+        _notyfService.Error("An error occured");
+        return RedirectToAction("Index", "Trainer");
+    }
 }
 

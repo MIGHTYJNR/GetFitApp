@@ -27,6 +27,29 @@
                 }
             }
         </li>
+        @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+        {
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Manage
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a asp-action="ListUsers" asp-controller="Administration"
+                       class="dropdown-item">Users</a>
+                    <a asp-action="ListRoles" asp-controller="Administration"
+                       class="dropdown-item">Roles</a>
+                    <a asp-action="ListBenefits" asp-controller="Benefit"
+                       class="dropdown-item">Benefit</a>
+                    <a asp-action="ListSpecialization" asp-controller="Specialization"
+                       class="dropdown-item">Specialization</a>
+                    <a asp-action="ListClasses" asp-controller="FitnessClass"
+                       class="dropdown-item">Fitness Class</a>
+                    <a asp-action="ListMembershipType" asp-controller="MembershipType"
+                       class="dropdown-item">Membership Type</a>
+                </div>
+            </li>
+        }
         <li class="nav-item">
             <a asp-controller="Auth" asp-controller="Home" asp-action="Logout" class="nav-link link-body-emphasis text-dark px-2">
                 Log Out

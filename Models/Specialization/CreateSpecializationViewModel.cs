@@ -6,7 +6,7 @@ namespace GetFitApp.Models.Specialization
     {
         public DateTime CreatedDate = DateTime.UtcNow;
 
-        [Display(Name = "Specialization Name")]
+        [Display(Name = "Specialization Name:")]
         [Required(ErrorMessage = "Specialization name is required")]
         public string SpecializationName { get; set; } = default!;
 

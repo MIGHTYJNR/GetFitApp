@@ -10,7 +10,7 @@
 <div class="ViewMemberDetails">
 
     <div class="mb-3">
-        <label class="form-label">Full Name</label>
+        <label class="form-label">Full Name:</label>
         <output type="text" class="form-control">
             @string.Join(" ", new[] { Model.Firstname, Model.Lastname, Model.Middlename }.Where(s => !string.IsNullOrEmpty(s)))
         </output>
@@ -69,8 +69,7 @@
     <div class="mb-3">
         <label asp-for="MembershipTypeId" class="form-label"></label>
         <output type="text" class="form-control" asp-for="MembershipTypeId">
-            @Model.MembershipTypeName <br />
-            Benefits: @Model.MembershipTypeBenefits.
+            @Model.MembershipTypeName
         </output>
         <span asp-validation-for="MembershipTypeId" class="text-danger"></span>
     </div>
@@ -95,8 +94,14 @@
         <span asp-validation-for="FitnessClassIds" class="text-danger"></span>
     </div>
 
+
+    <div class="mb-3">
+        <label asp-for="ExpiryDate" class="form-label">Membership Expiry Date:</label>
+        <output type="text" class="text-danger" asp-for="FitnessGoals">@Model.ExpiryDate</output>
+        <span asp-validation-for="ExpiryDate" class="text-danger"></span>
+    </div>
 </div>
 <div>
-    <a asp-action="UpdateMemberDetails" asp-controller="Member">Update</a>
-    <a asp-action="DeleteMember" asp-controller="Member">Delete</a>
+    <a style="width:auto" asp-action="UpdateMemberDetails" class="btn btn-primary">Update</a>
+    <a style="width:auto" asp-action="DeleteMember" class="btn btn-danger">Delete</a>
 </div>

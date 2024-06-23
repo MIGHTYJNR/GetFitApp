@@ -1,0 +1,31 @@
+﻿@using GetFitApp.Models.Trainer
+@model List<TrainerDetailsViewModel>
+
+@{
+    ViewData["Title"] = "List of Members";
+}
+
+<h2>@ViewData["Title"]</h2>
+<hr />
+
+@if (Model.Any())
+{
+    @foreach (var member in Model)
+    {
+        <div class="mb-3">
+            <div class="form-control">
+                Name: @member.Firstname @member.Lastname.ToUpper() <br />
+                Fitness Goal: @member.FitnessGoal
+            </div>
+        </div>
+    }
+    <div class="text-center">
+        <h6 class="display-6">We Believe In You :)</h6>
+    </div>
+}
+else
+{
+    <h6 class="mb-3">
+        Members are yet to chose you as their personal trainer.
+    </h6>
+}

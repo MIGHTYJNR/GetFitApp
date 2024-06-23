@@ -1,6 +1,7 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
 using GetFitApp.Data;
 using GetFitApp.Data.Entities;
+using GetFitApp.Data.Enums;
 using GetFitApp.Models.Member;
 using GetFitApp.Utility;
 using Microsoft.AspNetCore.Authorization;
@@ -31,20 +32,20 @@ public class MemberController(UserManager<User> userManager,
     public IActionResult MemberRegistration()
     {
         var membershipTypes = _getFitDbContext.MembershipTypes
+            .Include(mt => mt.Benefits)
             .OrderBy(mt => mt.Duration)
             .Select(mt => new SelectListItem
         {
-            Text = mt.MembershipTypeName,
+            Text = mt.MembershipTypeName.ToUpper() + " [" + "Subscription: " + mt.Duration.ToString() + " | " + "Price: " + mt.Amount + " | " + "Benefits: " + string.Join(",", mt.Benefits.Select(b => b.Description)) + "]",
             Value = mt.Id.ToString()
-        }).ToList();
+            }).ToList();
 
         var trainers = _getFitDbContext.Trainers
             .Include(t => t.Specialization)
             .OrderBy(t => t.Firstname)
             .Select(t => new SelectListItem
         {
-
-            Text = t.Firstname + " " + t.Lastname + " [" + t.Specialization.SpecializationName + "]",
+            Text = t.Firstname + " " + t.Lastname.ToUpper() + " [ " + t.Specialization.SpecializationName + " ] ",
             Value = t.Id.ToString()
         }).ToList();
 
@@ -72,12 +73,37 @@ public class MemberController(UserManager<User> userManager,
         var memberExist = await _getFitDbContext.MemberDetails.AnyAsync(x => x.PhoneNumber == model.PhoneNumber || x.Email == model.Email);
 
         var userDetail = await Helper.GetCurrentUserIdAsync(_httpContextAccessor, _userManager);
-        //var memberExist = await _getFitDbContext.MemberDetails.AnyAsync(x => x.UserId == userDetail.userId);
 
         if (memberExist)
         {
             _notyfService.Warning("Member already exists");
             return View(model);
+        }
+
+        var selectedMembershipType = await _getFitDbContext.MembershipTypes.FirstOrDefaultAsync(mt => mt.Id == model.MembershipTypeId);
+
+        if (selectedMembershipType == null)
+        {
+            _notyfService.Error("Invalid membership type selected");
+            return View(model);
+        }
+
+        var expirationDate = model.CreatedDate;
+
+        switch (selectedMembershipType.Duration)
+        {
+            case DurationType.Weekly:
+                expirationDate = expirationDate.AddDays(7);
+                break;
+            case DurationType.Monthly:
+                expirationDate = expirationDate.AddMonths(1);
+                break;
+            case DurationType.Yearly:
+                expirationDate = expirationDate.AddYears(1);
+                break;
+            default:
+                _notyfService.Error("Invalid duration type");
+                return View(model);
         }
 
         var member = new Member
@@ -95,7 +121,9 @@ public class MemberController(UserManager<User> userManager,
             FitnessGoal = model.FitnessGoal,
             MembershipTypeId = model.MembershipTypeId,
             TrainerId = model.TrainerId,
-            FitnessClassId = model.FitnessClassId
+            FitnessClassId = model.FitnessClassId,
+            CreatedDate = model.CreatedDate,
+            ExpiryDate = expirationDate
         };
 
         await _getFitDbContext.AddAsync(member);
@@ -119,7 +147,9 @@ public class MemberController(UserManager<User> userManager,
 
         var member = await _getFitDbContext.MemberDetails
             .Include(m => m.MembershipType)
+            .ThenInclude(mt => mt.Benefits)
             .Include(m => m.PreferredTrainer)
+            .ThenInclude(t => t.Specialization)
             .Include(m => m.FitnessClass)
             .FirstOrDefaultAsync(m => m.UserId == user!.Id);
 
@@ -140,13 +170,12 @@ public class MemberController(UserManager<User> userManager,
                 MembershipTypeId = member.MembershipTypeId,
                 TrainerId = member.TrainerId,
                 FitnessClassName = member.FitnessClass.Name.ToUpper(),
+                ExpiryDate = member.ExpiryDate,
 
                 FitnessClassSchedule = member.FitnessClass.Schedule,
                 MembershipTypeName = member.MembershipType.MembershipTypeName.ToUpper(),
-                MembershipTypeBenefits = member.MembershipType.Benefits.ToString()!,
-                TrainerName = member.PreferredTrainer.Firstname.ToUpper(),
-                TrainerSpecialization = member.PreferredTrainer.SpecializationId.ToString(),
-
+                TrainerName = member.PreferredTrainer?.Firstname + " " + member.PreferredTrainer?.Lastname.ToUpper(),
+                TrainerSpecialization = member.PreferredTrainer?.Specialization.SpecializationName
             };
 
             return View(memberDetailsViewModel);
@@ -161,15 +190,21 @@ public class MemberController(UserManager<User> userManager,
 
     public IActionResult UpdateMemberDetails()
     {
-        var membershipTypes = _getFitDbContext.MembershipTypes.Select(mt => new SelectListItem
+        var membershipTypes = _getFitDbContext.MembershipTypes
+        .Include(mt => mt.Benefits)
+        .OrderBy(mt => mt.Duration)
+        .Select(mt => new SelectListItem
         {
-            Text = mt.MembershipTypeName,
+            Text = mt.MembershipTypeName.ToUpper() + " [" + "Subscription: " + mt.Duration.ToString() + " | " + "Price: " + mt.Amount + " | " + "Benefits: " + string.Join(",", mt.Benefits.Select(b => b.Description)) + "]",
             Value = mt.Id.ToString()
         }).ToList();
 
-        var trainers = _getFitDbContext.Trainers.Select(t => new SelectListItem
+        var trainers = _getFitDbContext.Trainers
+        .Include(t => t.Specialization)
+        .OrderBy(t => t.Firstname)
+        .Select(t => new SelectListItem
         {
-            Text = t.Firstname,
+            Text = t.Firstname + " " + t.Lastname.ToUpper() + " [ " + t.Specialization.SpecializationName + " ] ",
             Value = t.Id.ToString()
         }).ToList();
 
@@ -214,6 +249,7 @@ public class MemberController(UserManager<User> userManager,
                 member.MembershipTypeId = model.MembershipTypeId;
                 member.TrainerId = model.TrainerId;
                 member.FitnessClassId = model.FitnessClassId;
+                member.ModifiedDate = model.ModifiedDate;
 
                 _getFitDbContext.Update(member);
                 await _getFitDbContext.SaveChangesAsync();
@@ -261,4 +297,82 @@ public class MemberController(UserManager<User> userManager,
         }
     }
 
+
+    public IActionResult Subscription()
+    {
+        var membershipTypes = _getFitDbContext.MembershipTypes
+        .Include(mt => mt.Benefits)
+        .OrderBy(mt => mt.Duration)
+        .Select(mt => new SelectListItem
+        {
+            Text = mt.MembershipTypeName.ToUpper() + " [" + "Subscription: " + mt.Duration.ToString() + " | " + "Price: " + mt.Amount + "]",
+            Value = mt.Id.ToString()
+        }).ToList();
+
+        var ViewModel = new SubscriptionViewModel
+        {
+            MembershipTypes = membershipTypes
+        };
+
+        return View(ViewModel);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Subscription(SubscriptionViewModel model)
+    {
+        if (ModelState.IsValid)
+        {
+            var user = await _userManager.GetUserAsync(User);
+
+            var member = await _getFitDbContext.MemberDetails
+                .FirstOrDefaultAsync(m => m.UserId == user!.Id);
+
+            if (member != null)
+            {
+                var selectedMembershipType = await _getFitDbContext.MembershipTypes.FirstOrDefaultAsync(mt => mt.Id == model.MembershipTypeId);
+
+                if (selectedMembershipType == null)
+                {
+                    _notyfService.Error("Invalid membership type selected");
+                    return View(model);
+                }
+
+                var expirationDate = model.ModifiedDate;
+
+                switch (selectedMembershipType.Duration)
+                {
+                    case DurationType.Weekly:
+                        expirationDate = expirationDate.AddDays(7);
+                        break;
+                    case DurationType.Monthly:
+                        expirationDate = expirationDate.AddMonths(1);
+                        break;
+                    case DurationType.Yearly:
+                        expirationDate = expirationDate.AddYears(1);
+                        break;
+                    default:
+                        _notyfService.Error("Invalid duration type");
+                        return View(model);
+                }
+
+                member.MembershipTypeId = model.MembershipTypeId;
+                member.ModifiedDate = model.ModifiedDate;
+                member.ExpiryDate = expirationDate;
+
+                _getFitDbContext.Update(member);
+                await _getFitDbContext.SaveChangesAsync();
+
+                _notyfService.Success("Subscription successfully");
+                return RedirectToAction("Index", "Member");
+            }
+            else
+            {
+                _notyfService.Error("Member not found");
+                return RedirectToAction("MemberRegistration", "Member");
+            }
+        }
+
+        _notyfService.Error("An error occurred while renewing subscription");
+        return View(model);
+    }
 }

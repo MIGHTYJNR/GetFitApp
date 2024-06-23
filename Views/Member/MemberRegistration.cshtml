@@ -91,7 +91,7 @@
             <option value="" selected hidden disabled>Select a Membership Type</option>
             @foreach (var item in Model.MembershipTypes)
             {
-                <option value="@item.Value">@item.Text</option>
+                <option value="@item.Value">@Html.Raw(item.Text.Replace("\n", "<br>"))</option>
             }
         </select>
         <span asp-validation-for="MembershipTypeId" class="text-danger"></span>
