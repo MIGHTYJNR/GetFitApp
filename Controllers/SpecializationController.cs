@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GetFitApp.Models.Specialization;
 using System.Data;
+using GetFitApp.Models.Benefit;
 
 namespace GetFitApp.Controllers;
 
@@ -75,6 +76,30 @@ public class SpecializationController(INotyfService notyf, GetFitContext getFitD
         }).ToList();
 
         return View(specializations);
+    }
+
+
+    [HttpGet]
+    public IActionResult SearchSpecialization(string searchString)
+    {
+        var specializations = _getFitDbContext.Specializations
+           .Where(s => s.SpecializationName.Contains(searchString))
+            .OrderBy(s => s.SpecializationName)
+            .Select(s => new SpecializationViewModel
+            {
+                Id = s.Id,
+                SpecializationName = s.SpecializationName,
+                IsAvailable = s.IsAvailable
+            })
+            .ToList();
+
+        if (specializations.Count == 0)
+        {
+            _notyfService.Warning("Specialization not found.");
+            return RedirectToAction("ListSpecialization", "Specialization");
+        }
+        _notyfService.Success("Specialization found");
+        return View("ListSpecialization", specializations);
     }
 
 

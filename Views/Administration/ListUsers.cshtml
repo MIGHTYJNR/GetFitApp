@@ -12,9 +12,14 @@
 
 @if (Model.Any())
 {
-    <a asp-controller="Auth" asp-action="SignUp" class="btn btn-primary mb-3">
-        Add new user
-    </a>
+    <form method="get" action="@Url.Action("SearchUser", "Administration")">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" name="searchString" placeholder="Search by username or email">
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="submit">Search</button>
+            </div>
+        </div>
+    </form>
 
     foreach (var User in Model)
     {
@@ -37,6 +42,9 @@
         </div>
     }
     <p>Total Users: @Model.Count()  ||  Members: @Model.Count(u => u.UserType == GetFitApp.Data.Enums.UserType.Member)  ||  Trainers: @Model.Count(u => u.UserType == GetFitApp.Data.Enums.UserType.Trainer)</p>
+    <a asp-controller="Auth" asp-action="SignUp" class="btn btn-primary mb-3">
+        Add new user
+    </a>
 }
 else
 {

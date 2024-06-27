@@ -1,6 +1,7 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
 using GetFitApp.Data;
 using GetFitApp.Data.Entities;
+using GetFitApp.Models.FitnessClass;
 using GetFitApp.Models.MembershipType;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -68,14 +69,38 @@ public class MembershipTypeController(INotyfService notyf, GetFitContext getFitD
         var membershipTypes = _getFitDbContext.MembershipTypes
             .OrderBy(mt => mt.Duration)
             .Select(mt => new MembershipTypeViewModel
-        {
-            Id = mt.Id,
-            MembershipTypeName = mt.MembershipTypeName,
-            Duration = mt.Duration,
-            Amount = mt.Amount,
-        }).ToList();
+            {
+                Id = mt.Id,
+                MembershipTypeName = mt.MembershipTypeName,
+                Duration = mt.Duration,
+                Amount = mt.Amount,
+            }).ToList();
 
         return View(membershipTypes);
+    }
+
+
+    [HttpGet]
+    public IActionResult SearchMembershipType(string searchString)
+    {
+        var membershipTypes = _getFitDbContext.MembershipTypes
+           .Where(mt => mt.MembershipTypeName.Contains(searchString))
+           .OrderBy(mt => mt.Duration)
+           .Select(mt => new MembershipTypeViewModel
+           {
+               Id = mt.Id,
+               MembershipTypeName = mt.MembershipTypeName,
+               Duration = mt.Duration,
+               Amount = mt.Amount,
+           }).ToList();
+
+        if (membershipTypes.Count == 0)
+        {
+            _notyfService.Warning("Membership type not found.");
+            return RedirectToAction("ListMembershipType", "MembershipType");
+        }
+        _notyfService.Success("Membership type found");
+        return View("ListMembershipType", membershipTypes);
     }
 
 

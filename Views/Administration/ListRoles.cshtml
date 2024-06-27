@@ -11,13 +11,20 @@
 
 @if (Model.Any())
 {
-    <a class="btn btn-primary mb-3" style="width:auto" asp-controller="administration"
-       asp-action="CreateRole">Add new role</a>
+    <form method="get" action="@Url.Action("SearchRole", "Administration")">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" name="searchString" placeholder="Search by role name">
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="submit">Search</button>
+            </div>
+        </div>
+    </form>
+    
     foreach(var role in Model)
     {
         <div class="card mb-3">
             <div class="card-body">
-                <h5 class="card-title">@role.Name</h5>
+                <h5 >@role.Name</h5>
             </div>
             <div class="card-footer">
                 <form asp-action="DeleteRole" asp-route-id="@role.Id" method="post">
@@ -33,6 +40,9 @@
         </div>
     }
     <p>Total Roles: @Model.Count()</p>
+    <a class="btn btn-primary mb-3" style="width:auto" asp-controller="administration"
+       asp-action="CreateRole">Add new role
+   </a>
 }
 else
 {

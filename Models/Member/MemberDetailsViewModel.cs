@@ -5,7 +5,7 @@ namespace GetFitApp.Models.Member
 {
     public class MemberDetailsViewModel
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public DateTime ExpiryDate { get; set; } = DateTime.MinValue;
 
         [Display(Name = "Firstname:")]

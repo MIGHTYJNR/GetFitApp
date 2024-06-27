@@ -117,12 +117,11 @@ IHttpContextAccessor httpContextAccessor) : Controller
                 _notyfService.Error("An error occured while registering user!");
                 return View();
             }
-            /*var userRoles = await _userManager.GetRolesAsync(user);
-            if (userRoles.Contains("Trainer"))
+
+            if (User.IsInRole("Admin"))
             {
-                _notyfService.Success("AdminRegistration was successful");
                 return RedirectToAction("ListUsers", "Administration");
-            }*/
+            }
             _notyfService.Success("Registration was successful");
             //await _signInManager.SignInAsync(user, isPersistent: false);
             return RedirectToAction("Login", "Auth");

@@ -190,15 +190,6 @@ public class MemberController(UserManager<User> userManager,
 
     public IActionResult UpdateMemberDetails()
     {
-        var membershipTypes = _getFitDbContext.MembershipTypes
-        .Include(mt => mt.Benefits)
-        .OrderBy(mt => mt.Duration)
-        .Select(mt => new SelectListItem
-        {
-            Text = mt.MembershipTypeName.ToUpper() + " [" + "Subscription: " + mt.Duration.ToString() + " | " + "Price: " + mt.Amount + " | " + "Benefits: " + string.Join(",", mt.Benefits.Select(b => b.Description)) + "]",
-            Value = mt.Id.ToString()
-        }).ToList();
-
         var trainers = _getFitDbContext.Trainers
         .Include(t => t.Specialization)
         .OrderBy(t => t.Firstname)
@@ -216,7 +207,6 @@ public class MemberController(UserManager<User> userManager,
 
         var ViewModel = new MemberViewModel
         {
-            MembershipTypes = membershipTypes,
             Trainers = trainers,
             FitnessClasses = fitnessClasses
         };
@@ -246,7 +236,6 @@ public class MemberController(UserManager<User> userManager,
                 member.Address = model.Address;
                 member.EmergencyContact = model.EmergencyContact;
                 member.FitnessGoal = model.FitnessGoal;
-                member.MembershipTypeId = model.MembershipTypeId;
                 member.TrainerId = model.TrainerId;
                 member.FitnessClassId = model.FitnessClassId;
                 member.ModifiedDate = model.ModifiedDate;

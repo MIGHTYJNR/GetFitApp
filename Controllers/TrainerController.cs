@@ -7,6 +7,8 @@ using GetFitApp.Utility;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GetFitApp.Models.Trainer;
+using GetFitApp.Models.Benefit;
+using NuGet.DependencyResolver;
 
 namespace GetFitApp.Controllers;
 
@@ -231,6 +233,41 @@ public class TrainerController(UserManager<User> userManager,
                 .ToList();
 
             return View(members);
+        }
+        _notyfService.Error("An error occured");
+        return RedirectToAction("Index", "Trainer");
+    }
+
+
+    [HttpGet]
+    public async Task<IActionResult> SearchMember(string searchString)
+    {
+        var user = await _userManager.GetUserAsync(User);
+
+        var trainer = await _getFitDbContext.Trainers
+            .FirstOrDefaultAsync(t => t.UserId == user!.Id);
+
+        if (trainer != null)
+        {
+            var members = _getFitDbContext.MemberDetails
+            .Where(m => m.TrainerId == trainer.Id && (m.Lastname.Contains(searchString) || m.Firstname.Contains(searchString)))
+            .OrderBy(m => m.Firstname)
+            .Select(m => new TrainerDetailsViewModel
+            {
+                Id = m.Id,
+                Firstname = m.Firstname,
+                Lastname = m.Lastname,
+                FitnessGoal = m.FitnessGoal
+            })
+            .ToList();
+
+            if (members.Count == 0)
+            {
+                _notyfService.Warning("Member not found.");
+                return RedirectToAction("ListMembers", "Trainer");
+            }
+            _notyfService.Success("Member found");
+            return View("ListMembers", members);
         }
         _notyfService.Error("An error occured");
         return RedirectToAction("Index", "Trainer");

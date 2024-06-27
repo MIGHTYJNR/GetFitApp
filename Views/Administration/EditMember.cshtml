@@ -1,13 +1,13 @@
 ﻿@model GetFitApp.Models.Member.MemberViewModel
 
 @{
-    ViewData["Title"] = "Update Details";
+    ViewData["Title"] = "Update Member Details";
 }
 
 <h2>@ViewData["Title"]</h2>
-<hr />
+<hr>
 
-<form asp-controller="Member" asp-action="UpdateMemberDetails" method="post">
+<form method="post" class="mb-3">
 
     <div class="mb-3">
         <label asp-for="Firstname" class="form-label"></label>
@@ -110,6 +110,11 @@
         <span asp-validation-for="FitnessClassIds" class="text-danger"></span>
     </div>
 
-    <button type="submit" class="btn btn-success">Update</button>
-    <a style="width:auto" asp-action="Index" class="btn btn-primary">Cancle</a>
+
+    <div class="form-group row">
+        <div>
+            <button style="width:auto" type="submit" class="btn btn-success">Update</button>
+            <a style="width:auto" asp-action="ListAllMembers" class="btn btn-primary">Cancle</a>
+        </div>
+    </div>
 </form>

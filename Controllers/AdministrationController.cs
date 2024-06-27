@@ -1,17 +1,22 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using AspNetCoreHero.ToastNotification.Notyf;
 using GetFitApp.AdminViewModel;
 using GetFitApp.Data;
 using GetFitApp.Data.Entities;
 using GetFitApp.Models.Benefit;
+using GetFitApp.Models.Member;
+using GetFitApp.Models.Trainer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using MySqlX.XDevAPI.Common;
+using NuGet.DependencyResolver;
 
 namespace GetFitApp.Controllers;
 
-//[Authorize(Roles = "Admin")]
-[Authorize]
+[Authorize(Roles = "Admin")]
 public class AdministrationController(RoleManager<IdentityRole> roleManager,
     UserManager<User> userManager,
     INotyfService notyf,
@@ -30,7 +35,28 @@ public class AdministrationController(RoleManager<IdentityRole> roleManager,
             .OrderBy(u => u.UserName);
         return View(users);
     }
-    
+
+
+    [HttpGet]
+    public IActionResult SearchUser(string searchString)
+    {
+        var users = userManager.Users
+            .Where(u => u.UserName!.Contains(searchString) || u.Email!.Contains(searchString))
+            .OrderBy(u => u.UserName);
+
+        if (!users.Any())
+        {
+            _notyfService.Warning("User not found.");
+            return RedirectToAction("ListUsers", "Administration");
+        }
+        else
+        {
+            _notyfService.Success("Found user");
+            return View("ListUsers", users);
+        }
+        
+    }
+
 
     [HttpGet]
     public async Task<IActionResult> EditUser(string id)
@@ -126,6 +152,318 @@ public class AdministrationController(RoleManager<IdentityRole> roleManager,
 
             _notyfService.Error("An error occurred while deleting user");
             return View("ListUsers");
+        }
+    }
+
+
+    [HttpGet]
+    public IActionResult ListAllTrainers()
+    {
+        var trainers = _getFitDbContext.Trainers
+            .OrderBy(t => t.Firstname)
+            .Select(t => new TrainerDetailsViewModel
+            {
+                Id = t.Id,
+                Firstname = t.Firstname,
+                Lastname = t.Lastname,
+                Middlename = t.Middlename,
+                Email = t.Email,
+                PhoneNumber = t.PhoneNumber,
+                Age = t.Age,
+                Gender = t.Gender,
+                Address = t.Address,
+                SpecializationName = t.Specialization.SpecializationName.ToUpper(),
+            }).ToList();
+
+        return View(trainers);
+    }
+
+
+
+    [HttpGet]
+    public IActionResult SearchTrainer(string searchString)
+    {
+        var trainers = _getFitDbContext.Trainers
+            .Where(t => t.Firstname.Contains(searchString) || t.Lastname.Contains(searchString) || t.Email.Equals(searchString))
+            .OrderBy(t => t.Firstname)
+            .Select(t => new TrainerDetailsViewModel
+            {
+                Id = t.Id,
+                Firstname = t.Firstname,
+                Lastname = t.Lastname,
+                Middlename = t.Middlename,
+                Email = t.Email,
+                PhoneNumber = t.PhoneNumber,
+                Age = t.Age,
+                Gender = t.Gender,
+                Address = t.Address,
+                SpecializationName = t.Specialization.SpecializationName.ToUpper(),
+            }).ToList();
+        if (!trainers.Any())
+        {
+            _notyfService.Warning("Trainer not found.");
+            return RedirectToAction("ListAllTrainers", "Administration");
+        }
+        else
+        {
+            _notyfService.Success("Successful");
+            return View("ListAllTrainers", trainers);
+        }
+    }
+
+
+    [HttpGet]
+    public IActionResult EditTrainer(Guid Id)
+    {
+        var specializations = _getFitDbContext.Specializations.Select(s => new SelectListItem
+        {
+            Text = s.SpecializationName,
+            Value = s.Id.ToString()
+        }).ToList();
+
+        var viewModel = new TrainerViewModel
+        {
+            Specializations = specializations
+        };
+
+        return View(viewModel);
+    }
+    [HttpPost]
+    public async Task<IActionResult> EditTrainer(TrainerViewModel model)
+    {
+        if (ModelState.IsValid)
+        {
+            var trainer = await _getFitDbContext.Trainers.FindAsync(model.Id);
+
+            if (trainer == null)
+            {
+                _notyfService.Error("Trainer not found");
+                return View(model);
+            }
+            else
+
+            {
+                trainer.Firstname = model.Firstname;
+                trainer.Lastname = model.Lastname;
+                trainer.Middlename = model.Middlename;
+                trainer.Email = model.Email;
+                trainer.PhoneNumber = model.PhoneNumber;
+                trainer.Age = model.Age;
+                trainer.Gender = model.Gender;
+                trainer.Address = model.Address;
+                
+
+                _getFitDbContext.Update(trainer);
+                var result = await _getFitDbContext.SaveChangesAsync();
+                if (result > 0)
+                {
+                    _notyfService.Success("Trainer details updated successfully");
+                    return RedirectToAction("ListAllTrainers");
+                }
+                else
+                {
+                    _notyfService.Error("Error! update not successful");
+                    return View(model);
+                }
+            }
+        }
+        _notyfService.Error("An error occurred while updating trainer details");
+        return RedirectToAction("EditTrainer");
+
+    }
+
+
+    [HttpPost]
+    public async Task<IActionResult> DeleteTrainer(Guid Id)
+    {
+        var trainer = await _getFitDbContext.Trainers.FindAsync(Id);
+
+        if (trainer == null)
+        {
+            _notyfService.Error("Trainer not found");
+            return View();
+        }
+
+        _getFitDbContext.Trainers.Remove(trainer);
+        var result = await _getFitDbContext.SaveChangesAsync();
+
+        if (result > 0)
+        {
+            _notyfService.Success("Deleted successfully");
+            return RedirectToAction("ListAllTrainers");
+        }
+        else
+        {
+            _notyfService.Error("An error occurred while deleting trainer details");
+            return RedirectToAction("ListAllTrainers");
+        }
+    }
+
+
+    [HttpGet]
+    public IActionResult ListAllMembers()
+    {
+        var members = _getFitDbContext.MemberDetails
+            .OrderBy(m => m.Firstname)
+            .Select(m => new MemberDetailsViewModel
+            {
+                Id = m.Id,
+                Firstname = m.Firstname,
+                Lastname = m.Lastname,
+                Middlename = m.Middlename,
+                Email = m.Email,
+                PhoneNumber = m.PhoneNumber,
+                Age = m.Age,
+                Gender = m.Gender,
+                Address = m.Address,
+                EmergencyContact = m.EmergencyContact,
+                FitnessGoal = m.FitnessGoal,
+                FitnessClassName = m.FitnessClass.Name,
+                MembershipTypeName = m.MembershipType.MembershipTypeName,
+                TrainerName = m.PreferredTrainer.Firstname,
+                ExpiryDate = m.ExpiryDate
+            }).ToList();
+
+        return View(members);
+    }
+
+
+    [HttpGet]
+    public IActionResult SearchMember(string searchString)
+    {
+        var members = _getFitDbContext.MemberDetails
+            .Where(m => m.Firstname.Contains(searchString) || m.Lastname.Contains(searchString) || m.Email.Equals(searchString))
+            .OrderBy(m => m.Firstname)
+            .Select(m => new MemberDetailsViewModel
+            {
+                Id = m.Id,
+                Firstname = m.Firstname,
+                Lastname = m.Lastname,
+                Middlename = m.Middlename,
+                Email = m.Email,
+                PhoneNumber = m.PhoneNumber,
+                Age = m.Age,
+                Gender = m.Gender,
+                Address = m.Address,
+                EmergencyContact = m.EmergencyContact,
+                FitnessGoal = m.FitnessGoal,
+                FitnessClassName = m.FitnessClass.Name,
+                MembershipTypeName = m.MembershipType.MembershipTypeName,
+                TrainerName = m.PreferredTrainer.Firstname,
+                ExpiryDate = m.ExpiryDate
+            }).ToList();
+        if (!members.Any())
+        {
+            _notyfService.Warning("Member not found.");
+            return RedirectToAction("ListAllMembers", "Administration");
+        }
+        else
+        {
+            _notyfService.Success("Successful");
+            return View("ListAllMembers", members);
+        }
+    }
+
+
+    [HttpGet]
+    public IActionResult EditMember(Guid Id)
+    {
+        var trainers = _getFitDbContext.Trainers
+         .Include(t => t.Specialization)
+         .OrderBy(t => t.Firstname)
+         .Select(t => new SelectListItem
+         {
+             Text = t.Firstname + " " + t.Lastname.ToUpper() + " [ " + t.Specialization.SpecializationName + " ] ",
+             Value = t.Id.ToString()
+         }).ToList();
+
+        var fitnessClasses = _getFitDbContext.FitnessClasses.Select(fc => new SelectListItem
+        {
+            Text = fc.Name,
+            Value = fc.Id.ToString()
+        }).ToList();
+
+        var viewModel = new MemberViewModel
+        {
+            Trainers = trainers,
+            FitnessClasses = fitnessClasses  
+        };
+
+        return View(viewModel);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> EditMember(MemberViewModel model)
+    {
+        if (ModelState.IsValid)
+        {
+            var member = await _getFitDbContext.MemberDetails.FindAsync(model.Id);
+
+            if (member == null)
+            {
+                _notyfService.Error("Member not found");
+                return View(model);
+            }
+            else
+
+            {
+                member.Firstname = model.Firstname;
+                member.Lastname = model.Lastname;
+                member.Middlename = model.Middlename;
+                member.Email = model.Email;
+                member.PhoneNumber = model.PhoneNumber;
+                member.Age = model.Age;
+                member.Gender = model.Gender;
+                member.Address = model.Address;
+                member.EmergencyContact = model.EmergencyContact;
+                member.FitnessGoal = model.FitnessGoal;
+                member.TrainerId = model.TrainerId;
+                member.FitnessClassId = model.FitnessClassId;
+                member.ModifiedDate = model.ModifiedDate;
+
+                _getFitDbContext.Update(member);
+                var result = await _getFitDbContext.SaveChangesAsync();
+                if (result > 0)
+                {
+                    _notyfService.Success("Member details updated successfully");
+                    return RedirectToAction("ListAllMembers");
+                }
+                else
+                {
+                    _notyfService.Error("Error! update not successful");
+                    return View(model);
+                }
+            }
+        }
+        _notyfService.Error("An error occurred while updating member details");
+        return RedirectToAction("EditMember");
+
+    }
+
+
+    [HttpPost]
+    public async Task<IActionResult> DeleteMember(Guid Id)
+    {
+        var member = await _getFitDbContext.MemberDetails.FindAsync(Id);
+
+        if (member == null)
+        {
+            _notyfService.Error("Member not found");
+            return View();
+        }
+
+        _getFitDbContext.MemberDetails.Remove(member);
+        var result = await _getFitDbContext.SaveChangesAsync();
+
+        if (result > 0)
+        {
+            _notyfService.Success("Deleted successfully");
+            return RedirectToAction("ListAllMembers");
+        }
+        else
+        {
+            _notyfService.Error("An error occurred while deleting member details");
+            return RedirectToAction("ListAllMembers");
         }
     }
 
@@ -244,6 +582,26 @@ public class AdministrationController(RoleManager<IdentityRole> roleManager,
     {
         var roles = roleManager.Roles;
         return View(roles);
+    }
+
+
+    [HttpGet]
+    public IActionResult SearchRole(string searchString)
+    {
+        var roles = roleManager.Roles
+            .Where(r => r.Name!.Contains(searchString));
+
+        if (!roles.Any())
+        {
+            _notyfService.Warning("Role not found.");
+            return RedirectToAction("ListRoles", "Administration");
+        }
+        else
+        {
+            _notyfService.Success("Found role");
+            return View("ListRoles", roles);
+        }
+        
     }
 
 

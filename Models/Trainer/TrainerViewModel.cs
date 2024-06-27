@@ -6,6 +6,7 @@ namespace GetFitApp.Models.Trainer
 {
     public class TrainerViewModel
     {
+        public Guid Id { get; set; }
         public DateTime CreatedDate = DateTime.UtcNow;
         public DateTime ModifiedDate = DateTime.UtcNow;
 

@@ -3,6 +3,7 @@ using GetFitApp.Data;
 using GetFitApp.Data.Entities;
 using GetFitApp.Models.Benefit;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -14,11 +15,6 @@ public class BenefitController(INotyfService notyf, GetFitContext getFitDbContex
 {
     private readonly INotyfService _notyfService = notyf;
     private readonly GetFitContext _getFitDbContext = getFitDbContext;
-
-    public IActionResult Index()
-    {
-        return View();
-    }
 
 
     [HttpGet]
@@ -91,6 +87,32 @@ public class BenefitController(INotyfService notyf, GetFitContext getFitDbContex
             }).ToList();
 
         return View(benefit);
+    }
+
+
+    [HttpGet]
+    public IActionResult SearchBenefit(string searchString)
+    {
+        var benefit = _getFitDbContext.Benefits
+            .Where(b => b.Name.Contains(searchString))
+            .Include(b => b.MembershipType)
+            .Select(b => new BenefitViewModel
+            {
+                Id = b.Id,
+                Name = b.Name.ToUpper(),
+                Description = b.Description,
+                MembershipTypeId = b.MembershipTypeId,
+                MembershipTypeName = b.MembershipType.MembershipTypeName.ToUpper(),
+            })
+            .ToList();
+
+        if (benefit.Count == 0)
+        {
+            _notyfService.Warning("Benefit not found.");
+            return RedirectToAction("ListBenefits", "Benefit");
+        }
+        _notyfService.Success("Benefit found");
+        return View("ListBenefits", benefit);
     }
 
 

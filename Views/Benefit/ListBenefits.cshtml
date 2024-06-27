@@ -10,15 +10,22 @@
 
 @if (Model.Any())
 {
-    <a class="btn btn-primary mb-3" style="width:auto" asp-controller="Benefit"
-       asp-action="CreateBenefit">Add new benefit</a>
+    <form method="get" action="@Url.Action("SearchBenefit", "Benefit")">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" name="searchString" placeholder="Search...">
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="submit">Search</button>
+            </div>
+        </div>
+    </form>
+    
     @foreach (var benefit in Model)
     {
         <div class="card mb-3">
             <div class="card-body">
-                <h5 class="card-title">Membership Type Name : @benefit.MembershipTypeName</h5>
                 <h5 class="card-title">Benefit: @benefit.Name</h5>
-                <h6>Description: @benefit.Description</h6>
+                <h5 class="card-title">Membership Type Name : @benefit.MembershipTypeName</h5>
+                @benefit.Description
             </div>
             <div class="card-footer">
                 <form asp-action="DeleteBenefit" asp-route-id="@benefit.Id" method="post">
@@ -34,6 +41,9 @@
         </div>
     }
     <p>Total Benefits: @Model.Count()</p>
+    <a class="btn btn-primary mb-3" style="width:auto" asp-controller="Benefit"
+       asp-action="CreateBenefit">Add new benefit
+   </a>
 }
 else
 {

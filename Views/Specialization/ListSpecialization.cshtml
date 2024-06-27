@@ -11,8 +11,15 @@
 
 @if (Model.Any())
 {
-    <a class="btn btn-primary mb-3" style="width:auto" asp-controller="Specialization"
-       asp-action="CreateSpecialization">Add new specialization</a>
+    <form method="get" action="@Url.Action("SearchSpecialization", "Specialization")">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" name="searchString" placeholder="Search...">
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="submit">Search</button>
+            </div>
+        </div>
+    </form>
+    
     @foreach (var specialization in Model)
     {
         <div class="card mb-3">
@@ -34,6 +41,9 @@
         </div>
     }
     <p>Total Specializations: @Model.Count()  ||  Is Available: @Model.Count(s => s.IsAvailable)</p>
+    <a class="btn btn-primary mb-3" style="width:auto" asp-controller="Specialization" asp-action="CreateSpecialization">
+        Add new specialization
+   </a>
 }
 else
 {

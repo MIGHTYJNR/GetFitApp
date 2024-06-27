@@ -37,9 +37,11 @@ namespace GetFitApp.Models.Trainer
         [Display(Name = "Address:")]
         public string Address { get; set; } = default!;
 
+        //for ListMember: members who selected the trainer as their prefered trainer
         [Display(Name = "Fitness Goal:")]
         public string FitnessGoal { get; set; } = default!;
 
+        //for ListAssignedClass: classes assigned to trainer
         [Display(Name = "Fitness Class:")]
         public string Name { get; set; } = default!;
 

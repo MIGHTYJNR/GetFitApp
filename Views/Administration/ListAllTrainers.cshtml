@@ -1,0 +1,54 @@
+﻿@using GetFitApp.Models.Trainer
+@model List<TrainerDetailsViewModel>
+
+@{
+    ViewData["Title"] = "List of All Trainers";
+}
+
+<h2>@ViewData["Title"]</h2>
+<hr />
+
+
+@if (Model.Any())
+{
+    <form method="get" action="@Url.Action("SearchTrainer", "Administration")">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" name="searchString" placeholder="Search...">
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="submit">Search</button>
+            </div>
+        </div>
+    </form>
+    @foreach (var trainer in Model)
+    {
+        <div class="card mb-3">
+            <div class="card-body">
+                Name: @trainer.Firstname.ToUpper() @trainer.Lastname.ToUpper() @trainer.Middlename <br />
+                Specialization: @trainer.SpecializationName <br />
+                E-mail: @trainer.Email <br />
+                Phone No: @trainer.PhoneNumber <br />
+                Age: @trainer.Age years old <br />
+                Gender: @trainer.Gender.ToString().First() <br />
+                Address: @trainer.Address<br />
+            </div>
+
+            <div class="card-footer">
+                <form asp-action="DeleteTrainer" asp-route-id="@trainer.Id" method="post">
+                    <a asp-action="EditTrainer" asp-controller="Administration"
+                       asp-route-id="@trainer.Id" class="btn btn-primary">Edit</a>
+                    <button type="submit" class="btn btn-danger"
+                            onclick="return confirm('Are you sure you want to delete @trainer.Firstname.ToUpper() from trainers')">
+                        Delete
+                    </button>
+                </form>
+            </div>
+        </div>
+    }
+    <p>Total Trainers: @Model.Count()</p>
+}
+else
+{
+    <div class="mb-3">
+        There are no trainers employed yet.
+    </div>
+}

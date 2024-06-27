@@ -10,8 +10,15 @@
 
 @if (Model.Any())
 {
-    <a class="btn btn-primary mb-3" style="width:auto" asp-controller="FitnessClass"
-       asp-action="CreateFitnessClass">Add new fitness class</a>
+    <form method="get" action="@Url.Action("SearchClass", "FitnessClass")">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" name="searchString" placeholder="Search...">
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="submit">Search</button>
+            </div>
+        </div>
+    </form>
+    
     @foreach (var fitnessClass in Model)
     {
         <div class="card mb-3">
@@ -35,6 +42,9 @@
         </div>
     }
     <p>Total Classes: @Model.Count()</p>
+    <a class="btn btn-primary mb-3" style="width:auto" asp-controller="FitnessClass" asp-action="CreateFitnessClass">
+        Add new fitness class
+   </a>
 }
 else
 {

@@ -9,6 +9,7 @@ public class MemberViewModel
     public DateTime CreatedDate = DateTime.UtcNow;
     public DateTime ModifiedDate = DateTime.UtcNow;
     public DateTime ExpiryDate { get; set; }
+    public Guid Id { get; set; } = default!;
 
     [Display(Name = "Firstname")]
     [Required]

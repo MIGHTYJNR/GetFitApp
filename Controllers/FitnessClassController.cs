@@ -2,6 +2,7 @@
 using GetFitApp.Data;
 using GetFitApp.Data.Entities;
 using GetFitApp.Models.FitnessClass;
+using GetFitApp.Models.Specialization;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -89,11 +90,35 @@ public class FitnessClassController(INotyfService notyf, GetFitContext getFitDbC
                 Name = fc.Name.ToUpper(),
                 Schedule = fc.Schedule,
                 Duration = fc.Duration,
-                TrainerId = fc.TrainerId,
-                TrainerName = fc.Trainer.Firstname + " " + fc.Trainer.Lastname.ToUpper() + " [ " + fc.Trainer.Specialization.SpecializationName + " ]",
+                TrainerName = fc.Trainer.Firstname + " " + fc.Trainer.Lastname.ToUpper() + " [ " + fc.Trainer.Specialization.SpecializationName + " ]"
             }).ToList();
 
         return View(fitnessClass);
+    }
+
+
+    [HttpGet]
+    public IActionResult SearchClass ( string searchString)
+    {
+         var fitnessClass = _getFitDbContext.FitnessClasses
+            .Where(fc => fc.Name.Contains(searchString) || fc.Trainer.Firstname.Equals(searchString))
+            .OrderBy(fc => fc.Name)
+            .Select(fc => new FitnessClassViewModel
+            {
+                Id = fc.Id,
+                Name = fc.Name.ToUpper(),
+                Schedule = fc.Schedule,
+                Duration = fc.Duration,
+                TrainerName = fc.Trainer.Firstname + " " + fc.Trainer.Lastname.ToUpper() + " [ " + fc.Trainer.Specialization.SpecializationName + " ]"
+            }).ToList();
+
+        if (fitnessClass.Count == 0)
+        {
+            _notyfService.Warning("Fitness class not found.");
+            return RedirectToAction("ListClasses", "FitnessClass");
+        }
+        _notyfService.Success("Fitness class found");
+        return View("ListClasses", fitnessClass);
     }
 
 
