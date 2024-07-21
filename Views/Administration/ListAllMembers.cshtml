@@ -11,44 +11,57 @@
 @if (Model.Any())
 {
     <form method="get" action="@Url.Action("SearchMember", "Administration")">
-        <div class="input-group mb-3">
-            <input type="text" class="form-control" name="searchString" placeholder="Search...">
-            <div class="input-group-append">
-                <button class="btn btn-primary" type="submit">Search</button>
-            </div>
+        <div class="input-group mb-3 justify-content-end">
+            <input type="text" class="form-control-md" name="searchString" placeholder="Type to search...">
+
         </div>
     </form>
-    @foreach (var member in Model)
-    {
-        <div class="card mb-3">
-            <div class="card-body">
-                Name: @member.Firstname.ToUpper() @member.Lastname.ToUpper() @member.Middlename.First(). <br />
-                E-mail: @member.Email <br />
-                Phone No: @member.PhoneNumber <br />
-                Age: @member.Age years old <br />
-                Gender: @member.Gender.ToString().First() <br />
-                Fitness Goal: @member.FitnessGoal <br />
-                Emergency Contact: @member.EmergencyContact <br />
-                Address: @member.Address<br />
-                Membership Type: @member.MembershipTypeName.ToUpper() <br />
-                Trainer: @member.TrainerName <br />
-                Fitness Class: @member.FitnessClassName <br />
-                Subscription: Ends on @member.ExpiryDate 
-            </div>
-        
-            <div class="card-footer">
-                <form asp-action="DeleteMember" asp-route-id="@member.Id" method="post">
-                    <a asp-action="EditMember" asp-controller="Administration"
-                       asp-route-id="@member.Id" class="btn btn-primary">Edit</a>
-                    <button type="submit" class="btn btn-danger"
-                            onclick="return confirm('Are you sure you want to delete @member.Firstname.ToUpper() from members')">
-                        Delete
-                    </button>
-                </form>
-            </div>
-        </div>
-    }
-    <p>Total Members: @Model.Count()</p>
+
+    <table class="table table-striped table-hover table-bordered border-dark justify-content-center">
+        <caption>Total Members: @Model.Count()</caption>
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">NAME</th>
+                <th scope="col">EMAIL</th>
+                <th scope="col">PHONE NO</th>
+                <th scope="col">AGE</th>
+                <th scope="col">SEX</th>
+                <th scope="col">EMERGENCY</th>
+                <th scope="col">ADDRESS</th>
+                <th scope="col">TYPE</th>
+                <th scope="col">TRAINER</th>
+                <th scope="col">EXPIRED</th>
+                <th scope="col">ACTIONS</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var member in Model)
+            {
+                <tr class="table-success">
+                    <td>@member.Firstname.ToUpper() @member.Lastname.ToUpper() @member.Middlename.First().</td>
+                    <td>@member.Email</td>
+                    <td>@member.PhoneNumber</td>
+                    <td>@member.Age</td>
+                    <td>@member.Gender.ToString().First()</td>
+                    <td>@member.EmergencyContact</td>
+                    <td>@member.Address</td>
+                    <td>@member.MembershipTypeName.ToUpper()</td>
+                    <td>@member.TrainerName</td>
+                    <td>@member.ExpiryDate</td>
+                    <td>
+                        <form asp-action="DeleteMember" asp-route-id="@member.Id" method="post">
+                            <a asp-action="EditMember" asp-controller="Administration"
+                               asp-route-id="@member.Id" class="btn btn-primary btn-sm mb-1">Update</a>
+                            <button type="submit" class="btn btn-danger btn-sm mb-1"
+                                    onclick="return confirm('Are you sure you want to delete @member.Firstname.ToUpper() from members')">
+                                 Delete 
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 }
 else
 {

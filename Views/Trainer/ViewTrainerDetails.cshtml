@@ -9,48 +9,51 @@
 
 <div class="ViewTrainerDetails">
 
-    <div class="mb-3">
-        <label class="form-label" >Full Name:</label>
-        <output type="text" class="form-control">
-            @string.Join(" ", new[] { Model.Firstname, Model.Lastname, Model.Middlename }.Where(s => !string.IsNullOrEmpty(s)))
-        </output>
+    <div class="row mb-3">
+        <div class="col">
+            <label class="form-label" >Full Name:</label>
+            <output type="text" class="form-control">
+                @string.Join(" ", new[] { Model.Firstname, Model.Lastname, Model.Middlename }.Where(s => !string.IsNullOrEmpty(s)))
+            </output>
+        </div>
+
+
+        <div class="col">
+            <label asp-for="SpecializationId" class="form-label"></label>
+            <output type="text" class="form-control" asp-for="SpecializationId">
+                @Model.SpecializationName
+            </output>
+            <span asp-validation-for="SpecializationId" class="text-danger"></span>
+        </div>
+
+
+        <div class="col">
+            <label asp-for="Email" class="form-label"></label>
+            <output type="email" class="form-control" asp-for="Email">@Model.Email</output>
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
     </div>
 
-
-    <div class="mb-3">
-        <label asp-for="SpecializationId" class="form-label"></label>
-        <output type="text" class="form-control" asp-for="SpecializationId">
-            @Model.SpecializationName
-        </output>
-        <span asp-validation-for="SpecializationId" class="text-danger"></span>
-    </div>
+    <div class="row mb-3">
+        <div class="col">
+            <label asp-for="PhoneNumber" class="form-label"></label>
+            <output type="text" class="form-control" asp-for="PhoneNumber">@Model.PhoneNumber</output>
+            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+        </div>
 
 
-    <div class="mb-3">
-        <label asp-for="Email" class="form-label"></label>
-        <output type="email" class="form-control" asp-for="Email">@Model.Email</output>
-        <span asp-validation-for="Email" class="text-danger"></span>
-    </div>
+        <div class="col">
+            <label asp-for="Age" class="form-label"></label>
+            <output type="text" class="form-control" asp-for="Age">@Model.Age</output>
+            <span asp-validation-for="Age" class="text-danger"></span>
+        </div>
 
 
-    <div class="mb-3">
-        <label asp-for="PhoneNumber" class="form-label"></label>
-        <output type="text" class="form-control" asp-for="PhoneNumber">@Model.PhoneNumber</output>
-        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-    </div>
-
-
-    <div class="mb-3">
-        <label asp-for="Age" class="form-label"></label>
-        <output type="text" class="form-control" asp-for="Age">@Model.Age</output>
-        <span asp-validation-for="Age" class="text-danger"></span>
-    </div>
-
-
-    <div class="mb-3">
-        <label asp-for="Gender" class="form-label"></label>
-        <output type="text" class="form-control" asp-for="Gender">@Model.Gender</output>
-        <span asp-validation-for="Gender" class="text-danger"></span>
+        <div class="col">
+            <label asp-for="Gender" class="form-label"></label>
+            <output type="text" class="form-control" asp-for="Gender">@Model.Gender</output>
+            <span asp-validation-for="Gender" class="text-danger"></span>
+        </div>
     </div>
 
 

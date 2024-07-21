@@ -11,45 +11,54 @@
 @if (Model.Any())
 {
     <form method="get" action="@Url.Action("SearchBenefit", "Benefit")">
-        <div class="input-group mb-3">
-            <input type="text" class="form-control" name="searchString" placeholder="Search...">
-            <div class="input-group-append">
-                <button class="btn btn-primary" type="submit">Search</button>
-            </div>
+        <div class="input-group mb-3 justify-content-end">
+            <input type="text" class="form-control-md" name="searchString" placeholder="Type to search..." >
+
         </div>
     </form>
-    
-    @foreach (var benefit in Model)
-    {
-        <div class="card mb-3">
-            <div class="card-body">
-                <h5 class="card-title">Benefit: @benefit.Name</h5>
-                <h5 class="card-title">Membership Type Name : @benefit.MembershipTypeName</h5>
-                @benefit.Description
-            </div>
-            <div class="card-footer">
-                <form asp-action="DeleteBenefit" asp-route-id="@benefit.Id" method="post">
-                    <a class="btn btn-primary" asp-action="UpdateBenefit"
-                       asp-controller="Benefit" asp-route-id="@benefit.Id">Update</a>
 
-                    <button type="submit" class="btn btn-danger"
-                            onclick="return confirm('Are you sure you want to delete @benefit.MembershipTypes benefit')">
-                        Delete
-                    </button>
-                </form>
-            </div>
-        </div>
-    }
-    <p>Total Benefits: @Model.Count()</p>
-    <a class="btn btn-primary mb-3" style="width:auto" asp-controller="Benefit"
+    <table class="table table-striped table-hover table-bordered border-dark">
+        <caption>Total Benefits: @Model.Count()</caption>
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">NAME</th>
+                <th scope="col">MEMBERSHIP</th>
+                <th scope="col">DESCRIPTION</th>
+                <th scope="col">ACTIONS</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var benefit in Model)
+            {
+                <tr class="table-success">
+                    <td>@benefit.Name.ToUpper()</td>
+                    <td>@benefit.MembershipTypeName</td>
+                    <td>@benefit.Description</td>
+                    <td>
+                        <form asp-action="DeleteBenefit" asp-route-id="@benefit.Id" method="post">
+                            <a class="btn btn-primary btn-sm mb-1" asp-action="UpdateBenefit"
+                               asp-controller="Benefit" asp-route-id="@benefit.Id">Update</a>
+
+                            <button type="submit" class="btn btn-danger btn-sm mb-1"
+                                    onclick="return confirm('Are you sure you want to delete @benefit.MembershipTypes benefit')">
+                                Delete
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <a class="btn btn-primary btn-sm mb-3" style="width:auto" asp-controller="Benefit"
        asp-action="CreateBenefit">Add new benefit
    </a>
 }
 else
 {
-    <div class="card">
+    <div class="card border-dark mb-3">
         <div class="card-header">
-            No benefit created yet
+            NO BENEFIT CREATED YET
         </div>
         <div class="card-body">
             <h6 class="card-title">

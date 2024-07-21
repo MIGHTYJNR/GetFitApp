@@ -12,49 +12,50 @@
 @if (Model.Any())
 {
     <form method="get" action="@Url.Action("SearchRole", "Administration")">
-        <div class="input-group mb-3">
-            <input type="text" class="form-control" name="searchString" placeholder="Search by role name">
-            <div class="input-group-append">
-                <button class="btn btn-primary" type="submit">Search</button>
-            </div>
+        <div class="input-group mb-3 justify-content-end">
+            <input type="text" class="form-control-md" name="searchString" placeholder="Type to search...">
+
         </div>
     </form>
-    
-    foreach(var role in Model)
-    {
-        <div class="card mb-3">
-            <div class="card-body">
-                <h5 >@role.Name</h5>
-            </div>
-            <div class="card-footer">
-                <form asp-action="DeleteRole" asp-route-id="@role.Id" method="post">
-                    <a class="btn btn-primary" asp-action="EditRole"
-                        asp-controller="Administration" asp-route-id="@role.Id">Edit</a>
-                    
-                    <button type="submit" class="btn btn-danger"
-                            onclick="return confirm('Are you sure you want to delete role : @role.Name')">
-                        Delete
-                    </button>
-                </form>
-            </div>
-        </div>
-    }
-    <p>Total Roles: @Model.Count()</p>
-    <a class="btn btn-primary mb-3" style="width:auto" asp-controller="administration"
+
+    <table class="table table-striped table-hover table-bordered border-dark">
+        <caption>Total Roles: @Model.Count()</caption>
+        <thead class="table-dark">
+            <tr>
+                <th scope ="col">ROLE NAME</th>
+                <th scope="col">ACTIONS</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var role in Model)
+            {
+                <tr class="table-success">
+                    <td>@role.Name</td>
+                    <td>
+                        <form asp-action="DeleteRole" asp-route-id="@role.Id" method="post">
+                            <a asp-action="EditRole" asp-controller="Administration" asp-route-id="@role.Id" class="btn btn-primary btn-sm">Edit</a>
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete role : @role.Name')">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <a class="btn btn-primary mb-3 btn-sm" asp-controller="administration"
        asp-action="CreateRole">Add new role
    </a>
 }
 else
 {
-    <div class="card">
-        <div class="card-header">
-            No roles created yet
+    <div class="card border-dark">
+        <div class="card-header border-dark">
+            NO ROLE CREATED YET
         </div>
         <div class="card-body">
             <h5 class="card-title">
                 Use the button below to create a role
             </h5>
-            <a class="btn btn-primary" style="width:auto"
+            <a class="btn btn-primary btn-sm" style="width:auto"
                asp-controller="administration" asp-action="CreateRole">
                 Create Role
             </a>

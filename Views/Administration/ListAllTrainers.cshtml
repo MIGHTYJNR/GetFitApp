@@ -12,39 +12,51 @@
 @if (Model.Any())
 {
     <form method="get" action="@Url.Action("SearchTrainer", "Administration")">
-        <div class="input-group mb-3">
-            <input type="text" class="form-control" name="searchString" placeholder="Search...">
-            <div class="input-group-append">
-                <button class="btn btn-primary" type="submit">Search</button>
-            </div>
+        <div class="input-group mb-3 justify-content-end">
+            <input type="text" class="form-control-md" name="searchString" placeholder="Type to search...">
+
         </div>
     </form>
-    @foreach (var trainer in Model)
-    {
-        <div class="card mb-3">
-            <div class="card-body">
-                Name: @trainer.Firstname.ToUpper() @trainer.Lastname.ToUpper() @trainer.Middlename <br />
-                Specialization: @trainer.SpecializationName <br />
-                E-mail: @trainer.Email <br />
-                Phone No: @trainer.PhoneNumber <br />
-                Age: @trainer.Age years old <br />
-                Gender: @trainer.Gender.ToString().First() <br />
-                Address: @trainer.Address<br />
-            </div>
 
-            <div class="card-footer">
-                <form asp-action="DeleteTrainer" asp-route-id="@trainer.Id" method="post">
-                    <a asp-action="EditTrainer" asp-controller="Administration"
-                       asp-route-id="@trainer.Id" class="btn btn-primary">Edit</a>
-                    <button type="submit" class="btn btn-danger"
-                            onclick="return confirm('Are you sure you want to delete @trainer.Firstname.ToUpper() from trainers')">
-                        Delete
-                    </button>
-                </form>
-            </div>
-        </div>
-    }
-    <p>Total Trainers: @Model.Count()</p>
+    <table class="table table-striped table-hover table-bordered border-dark">
+        <caption>Total Trainers: @Model.Count()</caption>
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">NAME</th>
+                <th scope="col">SPECIALIZATION</th>
+                <th scope="col">EMAIL</th>
+                <th scope="col">PHONE NO</th>
+                <th scope="col">AGE</th>
+                <th scope="col">SEX</th>
+                <th scope="col">ADDRESS</th>
+                <th scope="col">ACTIONS</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var trainer in Model)
+            {
+                <tr class="table-success">
+                    <td>@trainer.Firstname.ToUpper() @trainer.Lastname.ToUpper() @trainer.Middlename.First().</td>
+                    <td>@trainer.SpecializationName</td>
+                    <td>@trainer.Email</td>
+                    <td>@trainer.PhoneNumber</td>
+                    <td>@trainer.Age</td>
+                    <td>@trainer.Gender.ToString().First()</td>
+                    <td>@trainer.Address</td>
+                    <td>
+                        <form asp-action="DeleteTrainer" asp-route-id="@trainer.Id" method="post">
+                            <a asp-action="EditTrainer" asp-controller="Administration"
+                               asp-route-id="@trainer.Id" class="btn btn-primary btn-sm mb-1">Update</a>
+                            <button type="submit" class="btn btn-danger btn-sm mb-1"
+                                    onclick="return confirm('Are you sure you want to delete @trainer.Firstname.ToUpper() from trainers')">
+                                Delete
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 }
 else
 {

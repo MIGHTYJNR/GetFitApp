@@ -4,8 +4,74 @@
 
 <h3>Welcome @(User!.Identity!.Name!.ToUpper())</h3>
 
-<div>
+@* <div>
     <a asp-action="ViewMemberDetails" asp-controller="Member">View Details</a>
     <a asp-action="UpdateMemberDetails" asp-controller="Member">Update</a>
     <a asp-action="DeleteMember" asp-controller="Member">Delete</a>
+</div> *@
+
+<div class="container-fluid">
+    <div class="text-center">
+        <h3 style="color:  #6610f2" class="mb-3">EXPLORE ALL OUR INCLUSIVE CLASSES</h3>
+    </div>
+    <div class="row justify-content-center mb-3">
+        <div class="col position-relative">
+            <img src="images/getfit-cardio.jpg" alt="CARDIO" class="rounded float-start" />
+            <div class="image-caption">
+                <h6>CARDIO</h6>
+                <p style="color: #f8f9fa">
+                    Our Cardio Sessions Are Essentially Designed<br />To Help You Reach Your Fitness Goal.
+                </p>
+            </div>
+        </div>
+        <div class="col position-relative">
+            <img src="images/getfit-crossfit.jpg" alt="CROSSFIT" class="rounded float-start" />
+            <div class="image-caption" >
+                <h6>CROSSFIT</h6>
+                <p style="color: #f8f9fa">
+                    A High-Intensity Internal Training Workout<br />Featuring Exercises That Last Minutes.
+                </p>
+            </div>
+        </div>
+        <div class="col position-relative">
+            <img src="images/getfit-pilates.jpg" alt="PILATES" class="rounded float-end" />
+            <div class="image-caption">
+                <h6>PILATES</h6>
+                <p style="color: #f8f9fa">
+                    A low-impact, full-body workout that <br />strengthens your core & enhances flexibility.
+                </p>
+            </div>
+        </div>   
+    </div>
+    <div class="row justify-content-center mb-3">
+        <div class="col position-relative">
+            <img src="images/getfit-powerlifting2.jpg" alt="POWERLIFTING" class="rounded float-end" />
+            <div class="image-caption">
+                <h6>POWER LIFTING</h6>
+                <p style="color: #f8f9fa">
+                    A Strength-Focused Regimen That <br />Maximizes Performance To Build Raw Power.
+                </p>
+            </div>
+        </div>
+        <div class="col position-relative">
+            <img src="images/getfit-bodybuilding.jpg" alt="BODY BUILDING" class="rounded float-end" />
+            <div class="image-caption">
+                <h6>BODY BUILDING</h6>
+                <p style="color: white">
+                    An Intense Regimen That Uses <br />A Resistance Training To Develop A Sculpted Physique.
+                </p>
+            </div>
+        </div>
+        <div class="col position-relative">
+            <img src="images/getfit-yoga.jpg" alt="YOGA" class="rounded float-end" />
+            <div class="image-caption">
+                <h6>YOGA</h6>
+                <p style="color: #f8f9fa">
+                    Our Yoga Classes Keeps You <br/>Centered Mentaly & Physicaly.
+                </p>
+            </div>
+        </div>
+        
+    </div>
 </div>
+

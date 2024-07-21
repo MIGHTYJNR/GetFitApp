@@ -228,6 +228,7 @@ public class TrainerController(UserManager<User> userManager,
                     Id = m.Id,
                     Firstname = m.Firstname,
                     Lastname = m.Lastname,
+                    Middlename = m.Middlename,
                     FitnessGoal = m.FitnessGoal
                 })
                 .ToList();
@@ -257,6 +258,7 @@ public class TrainerController(UserManager<User> userManager,
                 Id = m.Id,
                 Firstname = m.Firstname,
                 Lastname = m.Lastname,
+                Middlename = m.Middlename,
                 FitnessGoal = m.FitnessGoal
             })
             .ToList();

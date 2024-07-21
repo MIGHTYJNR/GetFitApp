@@ -11,22 +11,37 @@
 @if (Model.Any())
 {
     <form method="get" action="@Url.Action("SearchMember", "Trainer")">
-        <div class="input-group mb-3">
-            <input type="text" class="form-control" name="searchString" placeholder="Search...">
-            <div class="input-group-append">
-                <button class="btn btn-primary" type="submit">Search</button>
-            </div>
+        <div class="input-group mb-3 justify-content-end">
+            <input type="text" class="form-control-md" name="searchString" placeholder="Type to search...">
+
         </div>
     </form>
-    @foreach (var member in Model)
-    {
-        <div class="mb-3">
-            <div class="form-control">
-                Name: @member.Firstname @member.Lastname.ToUpper() <br />
-                Fitness Goal: @member.FitnessGoal
-            </div>
-        </div>
-    }
+
+    <table class="table table-striped table-hover table-bordered border-dark">
+        <caption>List of members</caption>
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">FIRSTNAME</th>
+                <th scope="col">LASTNAME</th>
+                <th scope="col">MIDDLENAME</th>
+                <th scope="col">FITNESS GOAL</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var member in Model)
+            {
+                <tr class="table-success">
+                    <td scope="row">@(Model.IndexOf(member) + 1)</td>
+                    <td>@member.Firstname.ToUpper()</td>
+                    <td>@member.Lastname.ToUpper()</td>
+                    <td>@member.Middlename</td>
+                    <td>@member.FitnessGoal</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
     <div class="text-center">
         <h6 class="display-6">We Believe In You :)</h6>
     </div>

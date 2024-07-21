@@ -11,46 +11,56 @@
 @if (Model.Any())
 {
     <form method="get" action="@Url.Action("SearchClass", "FitnessClass")">
-        <div class="input-group mb-3">
-            <input type="text" class="form-control" name="searchString" placeholder="Search...">
-            <div class="input-group-append">
-                <button class="btn btn-primary" type="submit">Search</button>
-            </div>
+        <div class="input-group mb-3 justify-content-end">
+            <input type="text" class="form-control-md" name="searchString" placeholder="Type to search...">
+
         </div>
     </form>
-    
-    @foreach (var fitnessClass in Model)
-    {
-        <div class="card mb-3">
-            <div class="card-body">
-                <h5 class="card-title">Class Name : @fitnessClass.Name</h5>
-                <h5 class="card-title">Schedule: @fitnessClass.Schedule</h5>
-                <h5 class="card-title">Duration: @fitnessClass.Duration minutes</h5>
-                <h5 class="card-title">Trainer: @fitnessClass.TrainerName</h5>
-            </div>
-            <div class="card-footer">
-                <form asp-action="DeleteClass" asp-route-id="@fitnessClass.Id" method="post">
-                    <a class="btn btn-primary" asp-action="UpdateClass"
-                       asp-controller="FitnessClass" asp-route-id="@fitnessClass.Id">Update</a>
 
-                    <button type="submit" class="btn btn-danger"
-                            onclick="return confirm('Are you sure you want to delete @fitnessClass.Name class')">
-                        Delete
-                    </button>
-                </form>
-            </div>
-        </div>
-    }
-    <p>Total Classes: @Model.Count()</p>
-    <a class="btn btn-primary mb-3" style="width:auto" asp-controller="FitnessClass" asp-action="CreateFitnessClass">
+    <table class="table table-striped table-hover table-bordered border-dark">
+        <caption>Total Classes: @Model.Count()</caption>
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">CLASS NAME</th>
+                <th scope="col">SCHEDULE</th>
+                <th scope="col">DURATION</th>
+                <th scope="col">TRAINER</th>
+                <th scope="col">ACTIONS</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var fitnessClass in Model)
+            {
+                <tr class="table-success">
+                    <td>@fitnessClass.Name</td>
+                    <td>@fitnessClass.Schedule</td>
+                    <td>@fitnessClass.Duration minutes</td>
+                    <td>@fitnessClass.TrainerName</td>
+                    <td>
+                        <form asp-action="DeleteClass" asp-route-id="@fitnessClass.Id" method="post">
+                            <a class="btn btn-primary btn-sm mb-1" asp-action="UpdateClass"
+                               asp-controller="FitnessClass" asp-route-id="@fitnessClass.Id">Update</a>
+
+                            <button type="submit" class="btn btn-danger btn-sm mb-1"
+                                    onclick="return confirm('Are you sure you want to delete @fitnessClass.Name class')">
+                                Delete
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <a class="btn btn-primary btn-sm mb-3" style="width:auto" asp-controller="FitnessClass" asp-action="CreateFitnessClass">
         Add new fitness class
    </a>
 }
 else
 {
-    <div class="card">
+    <div class="card border-dark mb-3">
         <div class="card-header">
-            No fitness class created yet
+            NO FITNESS CLASS CREATED YET
         </div>
         <div class="card-body">
             <h6 class="card-title">

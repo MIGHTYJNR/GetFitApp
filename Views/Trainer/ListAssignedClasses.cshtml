@@ -10,17 +10,31 @@
 
 @if (Model.Any())
 {
-    @foreach (var fitnessClass in Model)
-    {
-        <div class="mb-3">
-            <div class="form-control">
-                Name: @fitnessClass.Name.ToUpper() <br />
-                Schedule: @fitnessClass.Schedule | Duration: @fitnessClass.Duration minutes
-            </div>
-        </div>
-    }
+    <table class="table table-striped table-hover table-bordered border-dark">
+        <caption>Class Schedules</caption>
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">CLASS NAME</th>
+                <th scope="col">SCHEDULE</th>
+                <th scope="col">DURATION</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var fitnessClass in Model)
+            {
+                <tr class="table-success">
+                    <td scope="row">@(Model.IndexOf(fitnessClass) + 1)</td>
+                    <td>@fitnessClass.Name.ToUpper()</td>
+                    <td>@fitnessClass.Schedule</td>
+                    <td>@fitnessClass.Duration minutes</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
     <div class="text-center">
-        <h6 class="display-6">A Good Day To Unleash Your Potential & Help Transform A Gems' Body</h6>
+        <h6 class="display-6">A Good Day To Unleash Your Potentials & Help Transform A Gems' Body</h6>
     </div>
 }
 else

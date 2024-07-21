@@ -1,14 +1,13 @@
 ﻿@model GetFitApp.Models.Auth.LoginViewModel
 
 @{
-    ViewData["Title"] = "Login";
+    ViewData["Title"] = "GetFit Login";
 }
 
 <h2>@ViewData["Title"]</h2>
 <hr>
 
 <form asp-action="Login">
-
     <div class="mb-3">
         <label asp-for="Username" class="form-label"></label>
         <input type="text" class="form-control" asp-for="Username">
@@ -19,7 +18,7 @@
         <input type="password" class="form-control" asp-for="Password">
         <span asp-validation-for="Password" class="text-danger"></span>
     </div>
-   
+
 
     <button type="submit" class="btn btn-success">Login</button>
 

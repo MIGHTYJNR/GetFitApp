@@ -12,42 +12,50 @@
 @if (Model.Any())
 {
     <form method="get" action="@Url.Action("SearchSpecialization", "Specialization")">
-        <div class="input-group mb-3">
-            <input type="text" class="form-control" name="searchString" placeholder="Search...">
-            <div class="input-group-append">
-                <button class="btn btn-primary" type="submit">Search</button>
-            </div>
+        <div class="input-group mb-3 justify-content-end">
+            <input type="text" class="form-control-md" name="searchString" placeholder="Type to search...">
+
         </div>
     </form>
-    
-    @foreach (var specialization in Model)
-    {
-        <div class="card mb-3">
-            <div class="card-body">
-                <h5 class="card-title">Name: @specialization.SpecializationName</h5>
-                <h5>@(specialization.IsAvailable ? "Available" : "Not Available")</h5>
-            </div>
-            <div class="card-footer">
-                <form asp-action="DeleteSpecialization" asp-route-id="@specialization.Id" method="post">
-                    <a class="btn btn-primary" asp-action="UpdateSpecialization"
-                       asp-controller="Specialization" asp-route-id="@specialization.Id">Update</a>
 
-                    <button type="submit" class="btn btn-danger"
-                            onclick="return confirm('Are you sure you want to delete specialization : @specialization.SpecializationName')">
-                        Delete
-                    </button>
-                </form>
-            </div>
-        </div>
-    }
-    <p>Total Specializations: @Model.Count()  ||  Is Available: @Model.Count(s => s.IsAvailable)</p>
+    <table class="table table-striped table-hover table-bordered border-dark">
+        <caption>Total Specializations: @Model.Count()  ||  of Which Is Available: @Model.Count(s => s.IsAvailable)</caption>
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">SPECIALIZATION</th>
+                <th scope="col">ACCESSIBILITY</th>
+                <th scope="col">ACTIONS</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var specialization in Model)
+            {
+                <tr class="table-success">
+                    <td>@specialization.SpecializationName.ToUpper()</td>
+                    <td>@(specialization.IsAvailable ? "Available" : "Not Available")</td>
+                    <td>
+                        <form asp-action="DeleteSpecialization" asp-route-id="@specialization.Id" method="post">
+                            <a class="btn btn-primary btn-sm mb-1" asp-action="UpdateSpecialization"
+                               asp-controller="Specialization" asp-route-id="@specialization.Id">Update</a>
+
+                            <button type="submit" class="btn btn-danger btn-sm mb-1"
+                                    onclick="return confirm('Are you sure you want to delete specialization : @specialization.SpecializationName')">
+                                Delete
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
     <a class="btn btn-primary mb-3" style="width:auto" asp-controller="Specialization" asp-action="CreateSpecialization">
         Add new specialization
    </a>
 }
 else
 {
-<div class="card">
+    <div class="card border-dark mb-3">
     <div class="card-header">
         No specialization created yet
     </div>

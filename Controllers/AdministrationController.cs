@@ -1,9 +1,7 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
-using AspNetCoreHero.ToastNotification.Notyf;
 using GetFitApp.AdminViewModel;
 using GetFitApp.Data;
 using GetFitApp.Data.Entities;
-using GetFitApp.Models.Benefit;
 using GetFitApp.Models.Member;
 using GetFitApp.Models.Trainer;
 using Microsoft.AspNetCore.Authorization;
@@ -11,8 +9,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using MySqlX.XDevAPI.Common;
-using NuGet.DependencyResolver;
 
 namespace GetFitApp.Controllers;
 
@@ -41,7 +37,7 @@ public class AdministrationController(RoleManager<IdentityRole> roleManager,
     public IActionResult SearchUser(string searchString)
     {
         var users = userManager.Users
-            .Where(u => u.UserName!.Contains(searchString) || u.Email!.Contains(searchString))
+            .Where(u => u.UserName!.Contains(searchString) || u.Email!.Equals(searchString))
             .OrderBy(u => u.UserName);
 
         if (!users.Any())

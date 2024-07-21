@@ -1,4 +1,4 @@
-﻿@using GetFitApp.Data.Entities
+﻿﻿@using GetFitApp.Data.Entities
 @using Microsoft.AspNetCore.Identity
 
 @model IEnumerable<User>
@@ -13,44 +13,48 @@
 @if (Model.Any())
 {
     <form method="get" action="@Url.Action("SearchUser", "Administration")">
-        <div class="input-group mb-3">
-            <input type="text" class="form-control" name="searchString" placeholder="Search by username or email">
-            <div class="input-group-append">
-                <button class="btn btn-primary" type="submit">Search</button>
-            </div>
+        <div class="input-group mb-3 justify-content-end">
+            <input type="text" class="form-control-md" name="searchString" placeholder="Type to search...">
+            
         </div>
     </form>
 
-    foreach (var User in Model)
-    {
-        <div class="card mb-3">
-            <div class="card-body">
-                <h5 class="card-title">Username: @User.NormalizedUserName</h5>
-                <h5 class="card-title">User Type: @User.UserType.ToString()</h5>
-                <h5 class="card-title">Email: @User.Email</h5>
-            </div>
-            <div class="card-footer">
-                <form asp-action="DeleteUser" asp-route-id="@User.Id" method="post">
-                    <a asp-action="EditUser" asp-controller="Administration"
-                       asp-route-id="@User.Id" class="btn btn-primary">Edit</a>
-                    <button type="submit" class="btn btn-danger"
-                            onclick="return confirm('Are you sure you want to delete user : @User.UserName')">
-                        Delete
-                    </button>
-                </form>
-            </div>
-        </div>
-    }
-    <p>Total Users: @Model.Count()  ||  Members: @Model.Count(u => u.UserType == GetFitApp.Data.Enums.UserType.Member)  ||  Trainers: @Model.Count(u => u.UserType == GetFitApp.Data.Enums.UserType.Trainer)</p>
-    <a asp-controller="Auth" asp-action="SignUp" class="btn btn-primary mb-3">
+    <table class="table table-striped table-hover table-bordered border-dark">
+        <caption>All Users: @Model.Count()  ||  Members: @Model.Count(u => u.UserType == GetFitApp.Data.Enums.UserType.Member)  ||  Trainers: @Model.Count(u => u.UserType == GetFitApp.Data.Enums.UserType.Trainer)</caption>
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">USERNAME</th>
+                <th scope="col">USER TYPE</th>
+                <th scope="col">EMAIL</th>
+                <th scope="col">ACTIONS</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr class="table-success">
+                    <td>@user.NormalizedUserName</td>
+                    <td>@user.UserType.ToString()</td>
+                    <td>@user.Email</td>
+                    <td>
+                        <form asp-action="DeleteUser" asp-route-id="@user.Id" method="post">
+                            <a asp-action="EditUser" asp-controller="Administration" asp-route-id="@user.Id" class="btn btn-primary btn-sm">Edit</a>
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete user: @user.UserName')">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <a asp-controller="Auth" asp-action="SignUp" class="btn btn-primary mb-3 btn-sm">
         Add new user
     </a>
 }
 else
 {
-    <div class="card">
+    <div class="card border-dark mb-3">
         <div class="card-header">
-            No user added yet
+            NO USER ADDED YET
         </div>
         <div class="card-body">
             <h5 class="card-title">
