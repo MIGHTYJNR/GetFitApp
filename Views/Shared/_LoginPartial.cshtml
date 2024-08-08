@@ -21,7 +21,7 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Menu
+                            <i class="fa-solid fa-bars"></i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdownMenuLink">
                             <a asp-action="ViewMemberDetails" asp-controller="Member"
@@ -41,7 +41,7 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Menu
+                            <i class="fa-solid fa-bars"></i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdownMenuLink">
                             <a asp-action="ViewTrainerDetails" asp-controller="Trainer" class="dropdown-item">View Details</a>
@@ -52,7 +52,7 @@
                         </div>
                     </li>
                 }
-            }     
+            }
         </li>
 
         @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
@@ -60,7 +60,7 @@
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Manage
+                    <i class="fa-solid fa-gear"></i>
                 </a>
                 <div class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdownMenuLink">
                     <a asp-action="ListUsers" asp-controller="Administration"

@@ -1,13 +1,126 @@
-﻿@model GetFitApp.Data.Entities.Trainer
+﻿@model IEnumerable<GetFitApp.Models.FitnessClass.FitnessClassDisplayViewModel>
+
+@{
+    ViewData["Title"] = "Explore All Our Inclusive Classes";
+}
 
 <h1>GetFit</h1>
 
 <h3>Welcome @(User!.Identity!.Name!.ToUpper())</h3>
 
-<div>
-    <a asp-action="ViewTrainerDetails" asp-controller="Trainer"><span class="fa fa-eye"></span> View Details</a>
-    <a asp-action="UpdateTrainerDetails" asp-controller="Trainer">Update</a>
-    <a asp-action="ListMembers" asp-controller="Trainer">Members</a>
-    <a asp-action="ListAssignedClasses" asp-controller="Trainer">Class</a>
-    <a asp-action="DeleteTrainer" asp-controller="Trainer">Delete</a>
+<div class="container-fluid">
+    <div class="text-center">
+        <h3 style="color: #8C1AD9" class="mb-3">@ViewData["Title"]</h3>
+    </div>
+    <div class="row justify-content-center mb-3">
+        @foreach (var fitnessClass in Model)
+        {
+            <div class="col-4 mb-4 position-relative">
+                @if (!string.IsNullOrEmpty(fitnessClass.ImageUrl))
+                {
+                    <img src="@fitnessClass.ImageUrl" class="rounded float-start darker-image" alt="@fitnessClass.Name" />
+                }
+                else
+                {
+                    <img src="~/images/default-class-image.jpg" class="card-img-top" alt="Default Image" />
+                }
+                <div class="image-caption align-content-center">
+                    <h6>@fitnessClass.Name.ToUpper()</h6>
+                    <p>@fitnessClass.Description</p>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-bs-ride="carousel">
+    <div class="text-center">
+        <h3 style="color: #8C1AD9" class="mb-3">Our State-Of-The-Art Facilities</h3>
+    </div>
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4" aria-label="Slide 5"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="5" aria-label="Slide 6"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="6" aria-label="Slide 7"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="7" aria-label="Slide 8"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="8" aria-label="Slide 9"></button>
+    </div>
+    <div class="carousel-inner">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="~/Images/Getfit-E (1).jpg" alt="Strength Training Equipment" class="d-block w-100" />
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Strength Training Equipment</h5>
+                    <p>A variety of gym equipment including weight racks and other strength training machines.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="~/Images/Getfit-E (2).jpg" alt="Gym Facilities" class="d-block w-100" />
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Power Up With State-Of-The-Art Facilities</h5>
+                    <p>Kick your workouts into high gear & blast through your fitness plateau.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="~/Images/Getfit-E (3).jpg" alt="Workout Studio" class="d-block w-100" />
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Workout Studio</h5>
+                    <p>The gym provides a well-equipped workout studio space for group fitness classes and individual training.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="~/Images/Getfit-E (4).jpg" alt="Cardio and Strength Equipment" class="d-block w-100" />
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Cardio and Strength Equipment</h5>
+                    <p>A fitness studio equipped with modern cardio machines and strength training equipment.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="~/Images/Getfit-E (5).jpg" alt="Multi-Functional Gym Area" class="d-block w-100" />
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Multi-Functional Gym Area</h5>
+                    <p>A versatile area featuring benches, a stair climber, and a full rack of dumbbells.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="~/Images/Getfit-E (6).jpg" alt="Dumbbell and Bench Area" class="d-block w-100" />
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Dumbbell and Bench Area</h5>
+                    <p>Our well-equipped free weight area for strength training enthusiasts.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="~/Images/Getfit-E (7).jpg" alt="Gym Equipment" class="d-block w-100" />
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>State-of-the-Art Gym Equipment</h5>
+                    <p>Our gym is equipped with the latest machines for an effective workout.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="~/Images/Getfit-E (8).jpg" alt="Wall-mounted Exercise Equipment" class="d-block w-100" />
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Wall-mounted Exercise Equipment</h5>
+                    <p>Utilize our wall-mounted straps and balance trainers for a comprehensive workout.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="~/Images/Getfit-E (9).jpg" alt="Pilates Equipment" class="d-block w-100" />
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Pilates Equipment</h5>
+                    <p>Experience full-body workouts with our state-of-the-art Pilates machines.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
 </div>

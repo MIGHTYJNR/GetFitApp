@@ -17,12 +17,18 @@ html {
   min-height: 100%;
 }
 
+
 body {
-    margin-bottom: 60px;
+    margin-top: 0;
+    margin-bottom: 500px;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-    background-color: #f8f9fa;
+    background-color: #F2F2F2;
     background-size: auto;
     background-repeat: no-repeat;
+}
+
+.content {
+    flex: 1; /* Make the content area flexible to fill the available space */
 }
 
 .navbar {
@@ -30,8 +36,11 @@ body {
 }
 
 .footer {
-    background-color: #f8f9fa;
+    background-color: #0F011E;
     text-align: center;
+    position: relative;
+    bottom: 0;
+    width: 100%;
 }
 
 .card-container {
@@ -77,12 +86,18 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Horizontally center the content */
+    justify-content: center; /* Vertically center the content if needed */
+    text-align: center; /* Center align text */
+    overflow: hidden;
     color: white;
+    max-width: 100%;
 }
 
     .hero-section h1 {
-        font-size: 4rem;
+        font-size: 3rem;
         margin-bottom: 1rem;
     }
 
@@ -103,6 +118,14 @@ body {
         font-size: 1.5rem;
     }
 
+    .hero-section img {
+        position: center;
+        max-width: 100%;
+    }
+
+.fas {
+    color: #ffc107;
+}
 table {
     border: 2px solid;
     width: 100%;
@@ -110,22 +133,6 @@ table {
 th, td {
     border: 1px solid;
 }
-/*table {
-    border: 1px solid #ccc;
-    border-collapse: collapse;
-    width: 100%;
-    background-color: #f2f2f2;
-}
-
-th, td {
-    border: 1px solid #ccc;
-    padding: 8px;
-    text-align: left;
-}
-
-tr:nth-child(even) {
-    background-color: #e6e6e6;
-}*/
 
 .position-relative {
     position: relative;
@@ -136,6 +143,59 @@ tr:nth-child(even) {
     left: 15px;
     bottom: 0;
     color: #ffc107;
-    padding: 5px;
+    padding: 7px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    
+}
+    .image-caption p {
+        color: #f8f9fa;
+        font-size: 0.9em;
+    }
+
+.darker-image {
+    filter: brightness(0.6); /* Darkening effect, adjust as needed */
 }
 
+
+.card-img-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    color: #ffc107;
+    padding: 10px;
+    text-align: left;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Shadow effect */
+}
+
+.carousel-item {
+    
+    background-color: #000; /* Background color for non-image area */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+    .carousel-item img {
+        height: 666px;
+        width: 100%;
+        object-fit: cover; /* Ensure images cover the area */
+    }
+
+.carousel-caption {
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background for captions */
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.carousel-indicators {
+    bottom: -10px; /* Adjust positioning */
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: rgba(0, 0, 0, 0.5); /* Add background to control icons */
+    border-radius: 50%;
+}

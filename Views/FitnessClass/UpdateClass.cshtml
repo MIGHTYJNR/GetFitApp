@@ -7,43 +7,69 @@
 <h2>@ViewData["Title"]</h2>
 <hr>
 
-<form method="post" class="mb-3">
-    <div class="mb-3">
-        <label asp-for="Name" class="form-label"></label>
-        <input type="text" class="form-control" asp-for="Name">
-        <span asp-validation-for="Name" class="text-danger"></span>
+<form method="post" class="mb-3" enctype="multipart/form-data">
+    <div class="row mb-3">
+        <div class="col">
+            <label asp-for="Name" class="form-label"></label>
+            <input type="text" class="form-control" asp-for="Name">
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="col">
+            <label asp-for="Schedule" class="form-label"></label>
+            <input type="text" class="form-control" asp-for="Schedule">
+            <span asp-validation-for="Schedule" class="text-danger"></span>
+        </div>
+
+        <div class="col">
+            <label asp-for="Duration" class="form-label"></label>
+            <input type="text" class="form-control" asp-for="Duration">
+            <span asp-validation-for="Duration" class="text-danger"></span>
+        </div>
     </div>
 
-    <div class="mb-3">
-        <label asp-for="Schedule" class="form-label"></label>
-        <input type="text" class="form-control" asp-for="Schedule">
-        <span asp-validation-for="Schedule" class="text-danger"></span>
+    <div class="row mb-3">
+        <div class="col">
+            <label asp-for="Description" class="form-label"></label>
+            <input type="text" class="form-control" asp-for="Description">
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
     </div>
 
-    <div class="mb-3">
-        <label asp-for="Duration" class="form-label"></label>
-        <input type="text" class="form-control" asp-for="Duration">
-        <span asp-validation-for="Duration" class="text-danger"></span>
+    <div class="row mb-3">
+        <div class="col">
+            <label asp-for="TrainerId" class="form-label"></label>
+            <select asp-for="TrainerId" class="form-control">
+                <option value="" selected hidden disabled>Select a trainer for class</option>
+                @foreach (var item in Model.Trainers)
+                {
+                    <option value="@item.Value">@item.Text</option>
+                }
+            </select>
+            <span asp-validation-for="TrainerId" class="text-danger"></span>
+        </div>
+
+        <div class="col">
+            <label asp-for="Image" class="form-label"></label>
+            <input type="file" class="form-control" asp-for="Image">
+            <span asp-validation-for="Image" class="text-danger"></span>
+        </div>
     </div>
 
-    <div class="mb-3">
-        <label asp-for="TrainerId" class="form-label"></label>
-        <select asp-for="TrainerId" class="form-control">
-            <option value="" selected hidden disabled>Select a trainer for class</option>
-            @foreach (var item in Model.Trainers)
-            {
-                <option value="@item.Value">@item.Text</option>
-            }
-        </select>
-        <span asp-validation-for="TrainerId" class="text-danger"></span>
-    </div>
-
-    <div asp-validation-summary="All" class="text-danger"></div>
+    @if (Model.ExistingImageUrl != null)
+    {
+        <div class="mb-3">
+            <img src="@Model.ExistingImageUrl" alt="Class Image" style="width: 250px; height: 167px;" />
+        </div>
+    }
 
     <div class="form-group row">
         <div>
-            <button style="width:auto" type="submit" class="btn btn-success">Update</button>
-            <a style="width:auto" asp-action="ListClasses" class="btn btn-primary">Cancle</a>
+            <button style="width:auto" type="submit" class="btn btn-success">Save Changes</button>
+            <a style="width:auto" asp-action="ListClasses" class="btn btn-primary">Cancel</a>
         </div>
     </div>
 </form>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

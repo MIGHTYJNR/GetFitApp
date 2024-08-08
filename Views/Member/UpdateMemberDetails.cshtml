@@ -8,108 +8,112 @@
 <hr />
 
 <form asp-controller="Member" asp-action="UpdateMemberDetails" method="post">
+    <div class="row mb-3">
+        <div class="col">
+            <label asp-for="Firstname" class="form-label"></label>
+            <input type="text" class="form-control" asp-for="Firstname">
+            <span asp-validation-for="Firstname" class="text-danger"></span>
+        </div>
 
-    <div class="mb-3">
-        <label asp-for="Firstname" class="form-label"></label>
-        <input type="text" class="form-control" asp-for="Firstname">
-        <span asp-validation-for="Firstname" class="text-danger"></span>
+
+        <div class="col">
+            <label asp-for="Lastname" class="form-label"></label>
+            <input type="text" class="form-control" asp-for="Lastname">
+            <span asp-validation-for="Lastname" class="text-danger"></span>
+        </div>
+
+
+        <div class="col">
+            <label asp-for="Middlename" class="form-label"></label>
+            <input type="text" class="form-control" asp-for="Middlename">
+            <span asp-validation-for="Middlename" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col">
+            <label asp-for="Email" class="form-label"></label>
+            <input type="email" class="form-control" asp-for="Email">
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+
+        <div class="col">
+            <label asp-for="PhoneNumber" class="form-label"></label>
+            <input type="text" class="form-control" asp-for="PhoneNumber">
+            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col">
+            <label asp-for="Age" class="form-label"></label>
+            <input type="text" class="form-control" asp-for="Age">
+            <span asp-validation-for="Age" class="text-danger"></span>
+        </div>
+
+
+        <div class="col">
+            <label asp-for="Gender" class="form-label"></label>
+            <select asp-for="Gender" class="form-control">
+                <option value="" selected hidden disabled>Select Gender</option>
+                @foreach (var gender in Enum.GetValues(typeof(GetFitApp.Data.Enums.Gender)))
+                {
+                    <option value="@gender">@gender</option>
+                }
+            </select>
+            <span asp-validation-for="Gender" class="text-danger"></span>
+        </div>
+
+
+        <div class="col">
+            <label asp-for="EmergencyContact" class="form-label"></label>
+            <input type="text" class="form-control" asp-for="EmergencyContact">
+            <span asp-validation-for="EmergencyContact" class="text-danger"></span>
+        </div>
     </div>
 
-
-    <div class="mb-3">
-        <label asp-for="Lastname" class="form-label"></label>
-        <input type="text" class="form-control" asp-for="Lastname">
-        <span asp-validation-for="Lastname" class="text-danger"></span>
-    </div>
-
-
-    <div class="mb-3">
-        <label asp-for="Middlename" class="form-label"></label>
-        <input type="text" class="form-control" asp-for="Middlename">
-        <span asp-validation-for="Middlename" class="text-danger"></span>
-    </div>
-
-
-    <div class="mb-3">
-        <label asp-for="Email" class="form-label"></label>
-        <input type="email" class="form-control" asp-for="Email">
-        <span asp-validation-for="Email" class="text-danger"></span>
-    </div>
-
-
-    <div class="mb-3">
-        <label asp-for="PhoneNumber" class="form-label"></label>
-        <input type="text" class="form-control" asp-for="PhoneNumber">
-        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-    </div>
-
-
-    <div class="mb-3">
-        <label asp-for="Age" class="form-label"></label>
-        <input type="text" class="form-control" asp-for="Age">
-        <span asp-validation-for="Age" class="text-danger"></span>
-    </div>
-
-
-    <div class="mb-3">
-        <label asp-for="Gender" class="form-label"></label>
-        <select asp-for="Gender" class="form-control">
-            <option value="" selected hidden disabled>Select Gender</option>
-            @foreach (var gender in Enum.GetValues(typeof(GetFitApp.Data.Enums.Gender)))
-            {
-                <option value="@gender">@gender</option>
-            }
-        </select>
-        <span asp-validation-for="Gender" class="text-danger"></span>
-    </div>
-
-
-    <div class="mb-3">
+    <div class="col mb-3">
         <label asp-for="Address" class="form-label"></label>
         <input type="text" class="form-control" asp-for="Address">
         <span asp-validation-for="Address" class="text-danger"></span>
     </div>
 
+    <div class="row mb-3">
+        <div class="col">
+            <label asp-for="FitnessGoal" class="form-label"></label>
+            <input type="text" class="form-control" asp-for="FitnessGoal">
+            <span asp-validation-for="FitnessGoal" class="text-danger"></span>
+        </div>
 
-    <div class="mb-3">
-        <label asp-for="EmergencyContact" class="form-label"></label>
-        <input type="text" class="form-control" asp-for="EmergencyContact">
-        <span asp-validation-for="EmergencyContact" class="text-danger"></span>
+
+        <div class="col">
+            <label asp-for="TrainerId" class="form-label"></label>
+            <select asp-for="TrainerId" class="form-control">
+                <option value="" selected hidden disabled>Select Trainer</option>
+                @foreach (var item in Model.Trainers)
+                {
+                    <option value="@item.Value">@item.Text</option>
+                }
+            </select>
+            <span asp-validation-for="TrainerId" class="text-danger"></span>
+        </div>
+
+
+        <div class="col">
+            <label asp-for="FitnessClassIds" class="form-label">Fitness Class:</label>
+            <select asp-for="FitnessClassId" class="form-control">
+                <option value="" selected hidden disabled>Select Fitness Class</option>
+                @foreach (var item in Model.FitnessClasses)
+                {
+                    <option value="@item.Value">@item.Text</option>
+                }
+            </select>
+            <span asp-validation-for="FitnessClassIds" class="text-danger"></span>
+        </div>
     </div>
-
-
-    <div class="mb-3">
-        <label asp-for="FitnessGoal" class="form-label"></label>
-        <input type="text" class="form-control" asp-for="FitnessGoal">
-        <span asp-validation-for="FitnessGoal" class="text-danger"></span>
+    <div class="form-group row">
+        <div>
+            <button type="submit" class="btn btn-success ">Save Changes</button>
+            <a style="width:auto" asp-action="ViewMemberDetails" class="btn btn-primary ">Cancel</a>
+        </div>
     </div>
-
-
-    <div class="mb-3">
-        <label asp-for="TrainerId" class="form-label"></label>
-        <select asp-for="TrainerId" class="form-control">
-            <option value="" selected hidden disabled>Select Trainer</option>
-            @foreach (var item in Model.Trainers)
-            {
-                <option value="@item.Value">@item.Text</option>
-            }
-        </select>
-        <span asp-validation-for="TrainerId" class="text-danger"></span>
-    </div>
-
-
-    <div class="mb-3">
-        <label asp-for="FitnessClassIds" class="form-label"></label>
-        <select asp-for="FitnessClassId" class="form-control">
-            <option value="" selected hidden disabled>Select Fitness Class</option>
-            @foreach (var item in Model.FitnessClasses)
-            {
-                <option value="@item.Value">@item.Text</option>
-            }
-        </select>
-        <span asp-validation-for="FitnessClassIds" class="text-danger"></span>
-    </div>
-
-    <button type="submit" class="btn btn-success">Update</button>
-    <a style="width:auto" asp-action="Index" class="btn btn-primary">Cancle</a>
 </form>

@@ -10,40 +10,40 @@ namespace GetFitApp.Models.Trainer
         public DateTime CreatedDate = DateTime.UtcNow;
         public DateTime ModifiedDate = DateTime.UtcNow;
 
-        [Display(Name = "Firstname")]
+        [Display(Name = "Firstname:")]
         [Required]
         public string Firstname { get; set; } = default!;
 
-        [Display(Name = "Lastname")]
+        [Display(Name = "Lastname:")]
         [Required]
         public string Lastname { get; set; } = default!;
 
-        [Display(Name = "Middlename")]
+        [Display(Name = "Middlename:")]
         [Required]
         public string Middlename { get; set; } = default!;
 
-        [Display(Name = "Email")]
+        [Display(Name = "Email:")]
         [Required]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; } = default!;
 
-        [Display(Name = "Phone Number")]
+        [Display(Name = "Phone Number:")]
         [Required]
         public string PhoneNumber { get; set; } = default!;
 
-        [Display(Name = "Age")]
+        [Display(Name = "Age:")]
         [Required]
         public int Age { get; set; }
 
-        [Display(Name = "Gender")]
+        [Display(Name = "Gender:")]
         [Required(ErrorMessage = "Please select a gender")]
         public Gender Gender { get; set; } = default!;
 
-        [Display(Name = "Address")]
+        [Display(Name = "Address:")]
         [Required]
         public string Address { get; set; } = default!;
 
-        [Display(Name = "Specialization")]
+        [Display(Name = "Specialization:")]
         [Required(ErrorMessage = "Please select area of specialization")]
         public Guid SpecializationId { get; set; }
         public List<SelectListItem> Specializations { get; set; } = new List<SelectListItem>();

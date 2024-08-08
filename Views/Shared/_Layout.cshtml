@@ -13,15 +13,20 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">GetFit</a>
+                
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+
+                <a class="navbar" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="~/Images/Getfit-logo2.jpg" alt="GetFIT" style="width: 110px; height: auto;" />
+                </a>
+
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index"><i style="color: #8C1AD9" class="fa-solid fa-house"></i></a>
                         </li>
                     </ul>
                     <partial name="_LoginPartial" />
@@ -29,16 +34,47 @@
             </div>
         </nav>
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="border-top footer text-muted py-4 text-white">
         <div class="container">
-            &copy; 2024 - GetFitApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy Policy</a>
+            <div class="row align-content-center text-start">
+                <div class="col">
+                    <h5>GetFitApp</h5>
+                    <p>&copy; 2024 GetFitApp. All rights reserved.</p>
+                </div>
+                <div class="col">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li> <i class="fa-solid fa-shield-halved"></i> <a asp-area="" asp-controller="Home" asp-action="Privacy" class="text-white">Privacy Policy</a></li>
+                        <li> <i class="fa-solid fa-scale-balanced"></i> <a asp-area="" asp-controller="Home" asp-action="Terms" class="text-white">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="col">
+                    <h5>Contact GetFIT</h5>
+                    <ul class="list-unstyled">
+                        <li> <i class="fa-solid fa-phone"></i> <a href="tel:+2349025251070" target="_blank" class="text-white"> +234 9025 251 070 </a></li>
+                        <li> <i class="fa-solid fa-envelope"></i> <a href="mailto:getfit@yahoo.com" target="_blank" class="text-white"> getfit@yahoo.com </a></li>
+                    </ul>
+                </div>
+                <div class="col">
+                    <h5>Follow Us</h5>
+                    <ul class="list-inline">
+                        <li class="list-inline-item"><a href="https://www.facebook.com" target="_blank" class="text-white"><i class="fa-brands fa-square-facebook"></i></a></li>
+                        <li class ="list-inline-item"><a href="https://www.twitter.com" target="_blank" class="text-white"><i class="fa-brands fa-x-twitter"></i></a></li>
+                        <li class="list-inline-item"><a href="https://www.instagram.com" target="_blank" class="text-white"><i class="fa-brands fa-instagram"></i></a></li>
+                        <li class="list-inline-item"><a href="https://www.snapchat.com" target="_blank" class="text-white"><i class="fa-brands fa-snapchat"></i></a></li>
+                        <li class="list-inline-item"><a href="https://www.tiktok.com" target="_blank" class="text-white"><i class="fa-brands fa-tiktok"></i></a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
+        
     </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

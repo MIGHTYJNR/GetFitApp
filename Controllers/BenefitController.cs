@@ -119,6 +119,15 @@ public class BenefitController(INotyfService notyf, GetFitContext getFitDbContex
     [HttpGet]
     public IActionResult UpdateBenefit(Guid Id)
     {
+        var benefit = _getFitDbContext.Benefits
+            .Include(b => b.MembershipType)
+            .FirstOrDefault(b => b.Id == Id);
+
+        if (benefit == null)
+        {
+            _notyfService.Warning("Benefit not found.");
+            return RedirectToAction("ListBenefits", "Benefit");
+        }
         var membershipTypes = _getFitDbContext.MembershipTypes
             .OrderBy(mt => mt.Duration)
             .Select(mt => new SelectListItem
@@ -129,6 +138,9 @@ public class BenefitController(INotyfService notyf, GetFitContext getFitDbContex
 
         var viewModel = new BenefitViewModel
         {
+            Name = benefit.Name,
+            Description = benefit.Description,
+            MembershipTypeId = benefit.MembershipTypeId,
             MembershipTypes = membershipTypes
         };
         return View(viewModel);

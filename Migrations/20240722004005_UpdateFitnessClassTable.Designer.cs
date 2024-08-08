@@ -3,6 +3,7 @@ using System;
 using GetFitApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GetFitApp.Migrations
 {
     [DbContext(typeof(GetFitContext))]
-    partial class GetFitContextModelSnapshot : ModelSnapshot
+    [Migration("20240722004005_UpdateFitnessClassTable")]
+    partial class UpdateFitnessClassTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

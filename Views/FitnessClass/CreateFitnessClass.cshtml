@@ -6,7 +6,7 @@
 <h2>@ViewData["Title"]</h2>
 <hr>
 
-<form asp-action="CreateFitnessClass" method="post">
+<form asp-action="CreateFitnessClass" method="post" enctype="multipart/form-data">
 
     <div class="mb-3">
         <label asp-for="Name" class="form-label"></label>
@@ -38,6 +38,18 @@
         <span asp-validation-for="TrainerId" class="text-danger"></span>
     </div>
 
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label"></label>
+        <input type="text" class="form-control" asp-for="Description"></input>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Image" class="form-label"></label>
+        <input type="file" class="form-control" asp-for="Image">
+        <span asp-validation-for="Image" class="text-danger"></span>
+    </div>
+
     <button type="submit" class="btn btn-success">Create</button>
-    <a style="width:auto" asp-action="ListClasses" class="btn btn-primary">Cancle</a>
+    <a asp-action="ListClasses" class="btn btn-primary">Cancel</a>
 </form>

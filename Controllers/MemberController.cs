@@ -2,6 +2,7 @@
 using GetFitApp.Data;
 using GetFitApp.Data.Entities;
 using GetFitApp.Data.Enums;
+using GetFitApp.Models.FitnessClass;
 using GetFitApp.Models.Member;
 using GetFitApp.Utility;
 using Microsoft.AspNetCore.Authorization;
@@ -25,7 +26,16 @@ public class MemberController(UserManager<User> userManager,
 
     public IActionResult Index()
     {
-        return View();
+        var fitnessClass = _getFitDbContext.FitnessClasses
+            .Select(fc => new FitnessClassDisplayViewModel
+            {
+                Name = fc.Name,
+                Description = fc.Description,
+                Schedule = fc.Schedule,
+                ImageUrl = fc.ImageUrl
+            }).ToList();
+
+        return View(fitnessClass);
     }
 
 
@@ -188,25 +198,60 @@ public class MemberController(UserManager<User> userManager,
     }
 
 
-    public IActionResult UpdateMemberDetails()
+    public async Task<IActionResult> UpdateMemberDetails()
     {
-        var trainers = _getFitDbContext.Trainers
+        var user = await _userManager.GetUserAsync(User);
+
+        if (user == null)
+        {
+            _notyfService.Error("User not found");
+            return RedirectToAction("Index", "Home");
+        }
+
+        var member = await _getFitDbContext.MemberDetails
+            .Include(m => m.PreferredTrainer)
+            .Include(m => m.FitnessClass)
+            .FirstOrDefaultAsync(m => m.UserId == user.Id);
+
+        if (member == null)
+        {
+            _notyfService.Error("Member details not found");
+            return RedirectToAction("MemberRegistration", "Member");
+        }
+
+        var trainers = await _getFitDbContext.Trainers
         .Include(t => t.Specialization)
         .OrderBy(t => t.Firstname)
         .Select(t => new SelectListItem
         {
             Text = t.Firstname + " " + t.Lastname.ToUpper() + " [ " + t.Specialization.SpecializationName + " ] ",
-            Value = t.Id.ToString()
-        }).ToList();
+            Value = t.Id.ToString(),
+            Selected = t.Id == member.TrainerId
+        }).ToListAsync();
 
-        var fitnessClasses = _getFitDbContext.FitnessClasses.Select(fc => new SelectListItem
+        var fitnessClasses = await _getFitDbContext.FitnessClasses
+        .OrderBy(fc => fc.Schedule)
+        .Select(fc => new SelectListItem
         {
             Text = fc.Name,
-            Value = fc.Id.ToString()
-        }).ToList();
+            Value = fc.Id.ToString(),
+            Selected = fc.Id == member.FitnessClassId
+        }).ToListAsync();
 
         var ViewModel = new MemberViewModel
         {
+            Firstname = member.Firstname,
+            Lastname = member.Lastname,
+            Middlename = member.Middlename,
+            Email = member.Email,
+            PhoneNumber = member.PhoneNumber,
+            Age = member.Age,
+            Gender = member.Gender,
+            Address = member.Address,
+            EmergencyContact = member.EmergencyContact,
+            FitnessGoal = member.FitnessGoal,
+            TrainerId = member.TrainerId,
+            FitnessClassId = member.FitnessClassId,
             Trainers = trainers,
             FitnessClasses = fitnessClasses
         };
@@ -220,6 +265,11 @@ public class MemberController(UserManager<User> userManager,
         if (ModelState.IsValid)
         {
             var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                _notyfService.Error("User not found");
+                return RedirectToAction("Index", "Home");
+            }
 
             var member = await _getFitDbContext.MemberDetails
                 .FirstOrDefaultAsync(m => m.UserId == user!.Id);
@@ -312,6 +362,11 @@ public class MemberController(UserManager<User> userManager,
         if (ModelState.IsValid)
         {
             var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+        {
+            _notyfService.Error("User not found");
+            return RedirectToAction("Index", "Home");
+        }
 
             var member = await _getFitDbContext.MemberDetails
                 .FirstOrDefaultAsync(m => m.UserId == user!.Id);

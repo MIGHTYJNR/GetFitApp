@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using GetFitApp.Models.Trainer;
 using GetFitApp.Models.Benefit;
 using NuGet.DependencyResolver;
+using GetFitApp.Models.FitnessClass;
 
 namespace GetFitApp.Controllers;
 
@@ -24,7 +25,16 @@ public class TrainerController(UserManager<User> userManager,
 
     public IActionResult Index()
     {
-        return View();
+        var fitnessClass = _getFitDbContext.FitnessClasses
+            .Select(fc => new FitnessClassDisplayViewModel
+            {
+                Name = fc.Name,
+                Description = fc.Description,
+                Schedule = fc.Schedule,
+                ImageUrl = fc.ImageUrl
+            }).ToList();
+
+        return View(fitnessClass);
     }
 
 
@@ -124,8 +134,24 @@ public class TrainerController(UserManager<User> userManager,
     }
 
 
-    public IActionResult UpdateTrainerDetails()
+    public async Task<IActionResult> UpdateTrainerDetails()
     {
+        var user = await _userManager.GetUserAsync(User);
+
+        if (user == null)
+        {
+            _notyfService.Error("User not found");
+            return RedirectToAction("Index", "Home");
+        }
+
+        var trainer = await _getFitDbContext.Trainers
+            .FirstOrDefaultAsync(m => m.UserId == user.Id);
+
+        if (trainer == null)
+        {
+            _notyfService.Error("Details not found");
+            return RedirectToAction("TrainerRegistration", "Trainer");
+        }
         var specializations = _getFitDbContext.Specializations.Select(s => new SelectListItem
         {
             Text = s.SpecializationName,
@@ -134,6 +160,15 @@ public class TrainerController(UserManager<User> userManager,
 
         var viewModel = new TrainerViewModel
         {
+            Firstname = trainer.Firstname,
+            Lastname = trainer.Lastname,
+            Middlename = trainer.Middlename,
+            Email = trainer.Email,
+            PhoneNumber = trainer.PhoneNumber,
+            Age = trainer.Age,
+            Gender = trainer.Gender,
+            Address = trainer.Address,
+            SpecializationId = trainer.SpecializationId,
             Specializations = specializations
         };
 

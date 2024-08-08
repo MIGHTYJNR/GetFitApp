@@ -1,5 +1,5 @@
 ﻿@using GetFitApp.Models.FitnessClass
-@model List<FitnessClassViewModel>
+@model IEnumerable<GetFitApp.Models.FitnessClass.FitnessClassViewModel>
 
 @{
     ViewData["Title"] = "List of Fitness Classes";
@@ -21,10 +21,12 @@
         <caption>Total Classes: @Model.Count()</caption>
         <thead class="table-dark">
             <tr>
-                <th scope="col">CLASS NAME</th>
+                <th scope="col">CLASS</th>
+                <th scope="col">DESCRIPTION</th>
                 <th scope="col">SCHEDULE</th>
                 <th scope="col">DURATION</th>
                 <th scope="col">TRAINER</th>
+                <th scope="col">IMAGE</th>
                 <th scope="col">ACTIONS</th>
             </tr>
         </thead>
@@ -33,9 +35,20 @@
             {
                 <tr class="table-success">
                     <td>@fitnessClass.Name</td>
+                    <td>@fitnessClass.Description</td>
                     <td>@fitnessClass.Schedule</td>
                     <td>@fitnessClass.Duration minutes</td>
                     <td>@fitnessClass.TrainerName</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(fitnessClass.ExistingImageUrl))
+                        {
+                            <img src="@fitnessClass.ExistingImageUrl" alt="Class Image" style="width: 100px; height: auto;" />
+                        }
+                        else
+                        {
+                            <span>No image available</span>
+                        }
+                    </td>
                     <td>
                         <form asp-action="DeleteClass" asp-route-id="@fitnessClass.Id" method="post">
                             <a class="btn btn-primary btn-sm mb-1" asp-action="UpdateClass"
@@ -52,7 +65,7 @@
         </tbody>
     </table>
 
-    <a class="btn btn-primary btn-sm mb-3" style="width:auto" asp-controller="FitnessClass" asp-action="CreateFitnessClass">
+    <a class="btn btn-primary btn-sm mb-3" asp-controller="FitnessClass" asp-action="CreateFitnessClass">
         Add new fitness class
    </a>
 }

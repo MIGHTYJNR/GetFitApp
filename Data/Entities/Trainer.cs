@@ -16,5 +16,5 @@ public class Trainer : BaseEntity
     public int Age { get; set; }
     public Gender Gender { get; set; } = default!;
     public string Address { get; set; } = default!;
-    public ICollection<Member> Members { get; set; } = new HashSet<Member>();
+    public ICollection<Member> Members { get; set; } = [];
 }

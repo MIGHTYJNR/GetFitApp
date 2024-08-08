@@ -40,7 +40,7 @@ namespace GetFitApp.Models.Member
 
         [Display(Name = "Fitness Class:")]
         public string FitnessClassName { get; set; } = default!;
-        public List<Guid> FitnessClassIds { get; set; } = new List<Guid>();
+        public List<Guid> FitnessClassIds { get; set; } = [];
 
         [Display(Name = "Membership Type:")]
         public Guid MembershipTypeId { get; set; } = default!;

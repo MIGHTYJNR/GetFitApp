@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using NuGet.DependencyResolver;
 
 namespace GetFitApp.Controllers;
 
@@ -195,7 +196,7 @@ public class AdministrationController(RoleManager<IdentityRole> roleManager,
                 Address = t.Address,
                 SpecializationName = t.Specialization.SpecializationName.ToUpper(),
             }).ToList();
-        if (!trainers.Any())
+        if (trainers.Count == 0)
         {
             _notyfService.Warning("Trainer not found.");
             return RedirectToAction("ListAllTrainers", "Administration");
@@ -211,6 +212,14 @@ public class AdministrationController(RoleManager<IdentityRole> roleManager,
     [HttpGet]
     public IActionResult EditTrainer(Guid Id)
     {
+        var trainer = _getFitDbContext.Trainers
+            .FirstOrDefault(fc => fc.Id == Id);
+
+        if (trainer == null)
+        {
+            _notyfService.Error("Trainer not found");
+            return RedirectToAction("ListAllTrainers");
+        }
         var specializations = _getFitDbContext.Specializations.Select(s => new SelectListItem
         {
             Text = s.SpecializationName,
@@ -219,6 +228,15 @@ public class AdministrationController(RoleManager<IdentityRole> roleManager,
 
         var viewModel = new TrainerViewModel
         {
+            Firstname = trainer.Firstname,
+            Lastname = trainer.Lastname,
+            Middlename = trainer.Middlename,
+            Email = trainer.Email,
+            PhoneNumber = trainer.PhoneNumber,
+            Age = trainer.Age,
+            Gender = trainer.Gender,
+            Address = trainer.Address,
+            SpecializationId = trainer.SpecializationId,
             Specializations = specializations
         };
 
@@ -348,7 +366,7 @@ public class AdministrationController(RoleManager<IdentityRole> roleManager,
                 TrainerName = m.PreferredTrainer.Firstname,
                 ExpiryDate = m.ExpiryDate
             }).ToList();
-        if (!members.Any())
+        if (members.Count == 0)
         {
             _notyfService.Warning("Member not found.");
             return RedirectToAction("ListAllMembers", "Administration");
@@ -364,6 +382,14 @@ public class AdministrationController(RoleManager<IdentityRole> roleManager,
     [HttpGet]
     public IActionResult EditMember(Guid Id)
     {
+        var member = _getFitDbContext.MemberDetails
+        .FirstOrDefault(fc => fc.Id == Id);
+
+        if (member == null)
+        {
+            _notyfService.Error("Member not found");
+            return RedirectToAction("ListAllMembers");
+        }
         var trainers = _getFitDbContext.Trainers
          .Include(t => t.Specialization)
          .OrderBy(t => t.Firstname)
@@ -381,6 +407,18 @@ public class AdministrationController(RoleManager<IdentityRole> roleManager,
 
         var viewModel = new MemberViewModel
         {
+            Firstname = member.Firstname,
+            Lastname = member.Lastname,
+            Middlename = member.Middlename,
+            Email = member.Email,
+            PhoneNumber = member.PhoneNumber,
+            Age = member.Age,
+            Gender = member.Gender,
+            Address = member.Address,
+            EmergencyContact = member.EmergencyContact,
+            FitnessGoal = member.FitnessGoal,
+            TrainerId = member.TrainerId,
+            FitnessClassId = member.FitnessClassId,
             Trainers = trainers,
             FitnessClasses = fitnessClasses  
         };
