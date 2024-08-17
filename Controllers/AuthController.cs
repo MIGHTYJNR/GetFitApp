@@ -95,11 +95,11 @@ IHttpContextAccessor httpContextAccessor) : Controller
     {
         if (ModelState.IsValid)
         {
-            var existingUser = await _userManager.Users.SingleOrDefaultAsync(u => u.Email == model.Email || u.UserName == model.Username);
+            var existingUser = await _userManager.Users.SingleOrDefaultAsync(u => u.Email == model.Email && u.UserName == model.Username);
 
             if (existingUser != null)
             {
-                _notyfService.Warning("User already exist!");
+                _notyfService.Warning("User with username or email already exist!");
                 return View();
             }
 
@@ -114,7 +114,7 @@ IHttpContextAccessor httpContextAccessor) : Controller
 
             if (!result.Succeeded)
             {
-                _notyfService.Error("An error occured while registering user!");
+                _notyfService.Error("An eror occored when creating user!");
                 return View();
             }
 
@@ -122,9 +122,37 @@ IHttpContextAccessor httpContextAccessor) : Controller
             {
                 return RedirectToAction("ListUsers", "Administration");
             }
-            _notyfService.Success("Registration was successful");
-            //await _signInManager.SignInAsync(user, isPersistent: false);
-            return RedirectToAction("Login", "Auth");
+            
+            await _signInManager.SignInAsync(user, isPersistent: false);
+            /*return RedirectToAction("Index", "Home");*/
+
+            var userType = user.UserType;
+            var userDetails = await Helper.GetCurrentUserIdAsync(_httpContextAccessor, _userManager);
+            var memberDetail = await _getFitDbContext.MemberDetails.AnyAsync(x => x.UserId == userDetails.userId);
+            var trainerDetail = await _getFitDbContext.Trainers.AnyAsync(x => x.UserId == userDetails.userId);
+
+            var redirectResult = memberDetail ? RedirectToAction("Index", "Member") : RedirectToAction("MemberRegistration", "Member");
+            var redirectTrainerResult = trainerDetail ? RedirectToAction("Index", "Trainer") : RedirectToAction("TrainerRegistration", "Trainer");
+            if (userType == UserType.Member)
+            {
+                var memberDetails = await _getFitDbContext.MemberDetails.FirstOrDefaultAsync(x => x.UserId == userDetails.userId);
+
+                if (memberDetails != null)
+                {
+                    if (memberDetails.ExpiryDate < DateTime.Now)
+                    {
+                        _notyfService.Warning("Your subscription has expired '~'");
+                        return RedirectToAction("Subscription", "Member");
+                    }
+                }
+                _notyfService.Success("Registration was successful");
+                return redirectResult;
+            }
+            else if (userType == UserType.Trainer)
+            {
+                _notyfService.Success("Registration was successful");
+                return redirectTrainerResult;
+            }
         }
 
         return View(model);

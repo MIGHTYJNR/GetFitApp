@@ -29,8 +29,8 @@
 
     <div class="form-group">
         <div>
-            <button style="width:auto" type="submit" class="btn btn-success">Save Changes</button>
-            <a style="width:auto" asp-action="ListUsers" class="btn btn-primary">Cancel</a>
+            <button style="width:auto" type="submit" class="btn btn-success rounded-pill">Save Changes</button>
+            <a style="width:auto" asp-action="ListUsers" class="btn btn-primary rounded-pill">Cancel</a>
         </div>
     </div>
 
@@ -56,7 +56,7 @@
             @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
             {
                 <a asp-action="ManageUserRoles" asp-controller="Administration"
-                   asp-route-userId="@Model.Id" class="btn btn-primary btn-sm" style="width:auto">
+                   asp-route-userId="@Model.Id" class="btn btn-primary btn-sm rounded-pill" style="width:auto">
                     Manage Roles
                 </a>
             }

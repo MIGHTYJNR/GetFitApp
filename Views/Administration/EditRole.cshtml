@@ -19,8 +19,8 @@
 
     <div class="form-group">
         <div>
-            <button style="width:auto" type="submit" class="btn btn-success">Save Changes</button>
-            <a style="width:auto" asp-action="ListRoles" class="btn btn-primary">Cancel</a>
+            <button style="width:auto" type="submit" class="btn btn-success rounded-pill">Save Changes</button>
+            <a style="width:auto" asp-action="ListRoles" class="btn btn-primary rounded-pill">Cancel</a>
         </div>
     </div>
 
@@ -45,7 +45,7 @@
         </div>
         <div class="card-footer">
             <a asp-action="EditUsersInRole" asp-controller="Administration"
-               asp-route-roleId="@Model.Id" class="btn btn-primary btn-sm" style="width:auto">Add or remove users</a>
+               asp-route-roleId="@Model.Id" class="btn btn-primary btn-sm rounded-pill" style="width:auto">Add or remove users</a>
         </div>
     </div>
 </form>

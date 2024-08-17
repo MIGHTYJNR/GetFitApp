@@ -170,8 +170,6 @@ th, td {
 }
 
 .carousel-item {
-    
-    background-color: #000; /* Background color for non-image area */
     display: flex;
     justify-content: center;
     align-items: center;

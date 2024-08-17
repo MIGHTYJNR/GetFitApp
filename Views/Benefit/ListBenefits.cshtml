@@ -13,7 +13,6 @@
     <form method="get" action="@Url.Action("SearchBenefit", "Benefit")">
         <div class="input-group mb-3 justify-content-end">
             <input type="text" class="form-control-md" name="searchString" placeholder="Type to search..." >
-
         </div>
     </form>
 
@@ -36,10 +35,10 @@
                     <td>@benefit.Description</td>
                     <td>
                         <form asp-action="DeleteBenefit" asp-route-id="@benefit.Id" method="post">
-                            <a class="btn btn-primary btn-sm mb-1" asp-action="UpdateBenefit"
+                            <a class="btn btn-primary btn-sm mb-1 rounded-pill" asp-action="UpdateBenefit"
                                asp-controller="Benefit" asp-route-id="@benefit.Id">Update</a>
 
-                            <button type="submit" class="btn btn-danger btn-sm mb-1"
+                            <button type="submit" class="btn btn-danger btn-sm mb-1 rounded-pill"
                                     onclick="return confirm('Are you sure you want to delete @benefit.MembershipTypes benefit')">
                                 Delete
                             </button>
@@ -50,7 +49,7 @@
         </tbody>
     </table>
 
-    <a class="btn btn-primary btn-sm mb-3" style="width:auto" asp-controller="Benefit"
+    <a class="btn btn-primary btn-sm mb-3 rounded-pill" style="width:auto" asp-controller="Benefit"
        asp-action="CreateBenefit">Add new benefit
    </a>
 }
@@ -64,7 +63,7 @@ else
             <h6 class="card-title">
                 Use the button below to create a benefit
             </h6>
-            <a class="btn btn-primary" style="width:auto"
+            <a class="btn btn-primary rounded-pill" style="width:auto"
                asp-controller="benefit" asp-action="CreateBenefit">
                 Create Benefit
             </a>

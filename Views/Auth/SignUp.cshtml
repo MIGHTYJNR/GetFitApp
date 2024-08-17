@@ -4,50 +4,55 @@
     ViewData["Title"] = "Sign Up";
 }
 
-<h2>@ViewData["Title"]</h2>
+<h2 class="text-center">@ViewData["Title"]</h2>
 <hr>
 
 <form asp-action="SignUp">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+            <div class="mb-3">
+                <label asp-for="Username" class="form-label"></label>
+                <input type="text" class="form-control" asp-for="Username">
+                <span asp-validation-for="Username" class="text-danger"></span>
+            </div>
 
-    <div class="mb-3">
-        <label asp-for="Username" class="form-label"></label>
-        <input type="text" class="form-control" asp-for="Username">
-        <span asp-validation-for="Username" class="text-danger"></span>
+
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label"></label>
+                <input type="email" class="form-control" asp-for="Email">
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+
+            <div class="mb-3">
+                <label asp-for="UserType" class="form-label"></label>
+                <select asp-for="UserType" class="form-control">
+                    <option value="" selected hidden disabled>Select User Type</option>
+                    @foreach (var userType in Enum.GetValues(typeof(GetFitApp.Data.Enums.UserType)))
+                    {
+                        <option value="@userType">@userType</option>
+                    }
+                </select>
+                <span asp-validation-for="UserType" class="text-danger"></span>
+            </div>
+
+
+            <div class="mb-3">
+                <label asp-for="Password" class="form-label"></label>
+                <input type="password" class="form-control" asp-for="Password">
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+
+            <div class="mb-3">
+                <label asp-for="ConfirmPassword" class="form-label"></label>
+                <input type="password" class="form-control" asp-for="ConfirmPassword">
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-success rounded-pill mb-3">Sign Up</button>
+            
+            <a class="btn btn-link mb-3" asp-action="Login" asp-controller="Auth">Already have an account? Login</a>
+        </div>
     </div>
-
-
-    <div class="mb-3">
-        <label asp-for="Email" class="form-label"></label>
-        <input type="email" class="form-control" asp-for="Email">
-        <span asp-validation-for="Email" class="text-danger"></span>
-    </div>
-
-
-    <div class="mb-3">
-        <label asp-for="UserType" class="form-label"></label>
-        <select asp-for="UserType" class="form-control">
-            <option value="" selected hidden disabled>Select User Type</option>
-            @foreach (var userType in Enum.GetValues(typeof(GetFitApp.Data.Enums.UserType)))
-            {
-                <option value="@userType">@userType</option>
-            }
-        </select>
-        <span asp-validation-for="UserType" class="text-danger"></span>
-    </div>
-
-
-    <div class="mb-3">
-        <label asp-for="Password" class="form-label"></label>
-        <input type="password" class="form-control" asp-for="Password">
-        <span asp-validation-for="Password" class="text-danger"></span>
-    </div>
-
-
-    <div class="mb-3">
-        <label asp-for="ConfirmPassword" class="form-label"></label>
-        <input type="password" class="form-control" asp-for="ConfirmPassword">
-        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-    </div>
-
-    <button type="submit" class="btn btn-success">Sign Up</button>
 </form>

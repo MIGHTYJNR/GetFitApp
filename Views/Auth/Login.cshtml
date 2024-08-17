@@ -4,25 +4,24 @@
     ViewData["Title"] = "GetFit Login";
 }
 
-<h2>@ViewData["Title"]</h2>
+<h2 class="text-center">@ViewData["Title"]</h2>
 <hr>
 
 <form asp-action="Login">
-    <div class="col-5">
-        <i class="fa-solid fa-user-secret mb-3 fs-1"></i>
-        <div class="mb-3">
-            <label asp-for="Username" class="form-label"></label>
-            <input type="text" class="form-control" asp-for="Username">
-            <span asp-validation-for="Username" class="text-danger"></span>
-        </div>
-        <div class="mb-3">
-            <label asp-for="Password" class="form-label"></label>
-            <input type="password" class="form-control" asp-for="Password">
-            <span asp-validation-for="Password" class="text-danger"></span>
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+            <i class="fa-solid fa-user-secret mb-3 fs-1 text-muted"></i>
+            <div class="mb-3">
+                <label asp-for="Username" class="form-label"></label>
+                <input type="text" class="form-control" asp-for="Username">
+                <span asp-validation-for="Username" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Password" class="form-label"></label>
+                <input type="password" class="form-control" asp-for="Password">
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-success rounded-pill">Login</button>
         </div>
     </div>
-
-
-    <button type="submit" class="btn btn-success">Login</button>
-
 </form>

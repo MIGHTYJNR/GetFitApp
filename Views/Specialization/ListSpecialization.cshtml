@@ -35,10 +35,10 @@
                     <td>@(specialization.IsAvailable ? "Available" : "Not Available")</td>
                     <td>
                         <form asp-action="DeleteSpecialization" asp-route-id="@specialization.Id" method="post">
-                            <a class="btn btn-primary btn-sm mb-1" asp-action="UpdateSpecialization"
+                            <a class="btn btn-primary btn-sm mb-1 rounded-pill" asp-action="UpdateSpecialization"
                                asp-controller="Specialization" asp-route-id="@specialization.Id">Update</a>
 
-                            <button type="submit" class="btn btn-danger btn-sm mb-1"
+                            <button type="submit" class="btn btn-danger btn-sm mb-1 rounded-pill"
                                     onclick="return confirm('Are you sure you want to delete specialization : @specialization.SpecializationName')">
                                 Delete
                             </button>
@@ -49,7 +49,7 @@
         </tbody>
     </table>
 
-    <a class="btn btn-primary mb-3" style="width:auto" asp-controller="Specialization" asp-action="CreateSpecialization">
+    <a class="btn btn-primary mb-3 rounded-pill" style="width:auto" asp-controller="Specialization" asp-action="CreateSpecialization">
         Add new specialization
    </a>
 }
@@ -63,8 +63,7 @@ else
         <h6 class="card-title">
             Use the button below to create a specialization
         </h6>
-        <a class="btn btn-primary" style="width:auto"
-           asp-controller="specialization" asp-action="CreateSpecialization">
+            <a class="btn btn-primary rounded-pill" style="width:auto" asp-controller="specialization" asp-action="CreateSpecialization">
             Create Specialization
         </a>
     </div>

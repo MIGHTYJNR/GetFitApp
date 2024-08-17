@@ -14,12 +14,12 @@
         <input type="text" class="form-control" asp-for="SpecializationName">
         <span asp-validation-for="SpecializationName" class="text-danger"></span>
     </div>
-    <div>
+    <div class="form-check form-switch mb-3">
         <label asp-for="IsAvailable" class="control-label"></label>
-        <input type="checkbox" asp-for="IsAvailable"/>
+        <input class="form-check-input" type="checkbox" asp-for="IsAvailable" />
         <span asp-validation-for="IsAvailable" class=""></span>
     </div>
 
-    <button type="submit" class="btn btn-success">Create</button>
-    <a style="width:auto" asp-action="ListSpecialization" class="btn btn-primary">Cancle</a>
+    <button type="submit" class="btn btn-success rounded-pill">Create</button>
+    <a style="width:auto" asp-action="ListSpecialization" class="btn btn-primary rounded-pill">Cancle</a>
 </form>

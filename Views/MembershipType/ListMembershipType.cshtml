@@ -37,10 +37,10 @@
                     <td>@membershipType.Amount</td>
                     <td>
                         <form asp-action="DeleteMembershipType" asp-route-id="@membershipType.Id" method="post">
-                            <a class="btn btn-primary btn-sm mb-1" asp-action="UpdateMembershipType"
+                            <a class="btn btn-primary btn-sm mb-1 rounded-pill" asp-action="UpdateMembershipType"
                                asp-controller="MembershipType" asp-route-id="@membershipType.Id">Update</a>
 
-                            <button type="submit" class="btn btn-danger btn-sm mb-1"
+                            <button type="submit" class="btn btn-danger btn-sm mb-1 rounded-pill"
                                     onclick="return confirm('Are you sure you want to delete membership type : @membershipType.MembershipTypeName')">
                                 Delete
                             </button>
@@ -51,7 +51,7 @@
         </tbody>
     </table>
 
-    <a class="btn btn-primary mb-3 btn-sm" style="width:auto" asp-controller="MembershipType" asp-action="CreateMembershipType">
+    <a class="btn btn-primary mb-3 btn-sm rounded-pill" style="width:auto" asp-controller="MembershipType" asp-action="CreateMembershipType">
        Create new membership type
    </a>
 }
@@ -65,7 +65,7 @@ else
             <h6 class="card-title">
                 Use the button below to create a membership type
             </h6>
-            <a class="btn btn-primary" style="width:auto"
+            <a class="btn btn-primary rounded-pill" style="width:auto"
                asp-controller="MembershipType" asp-action="CreateMembershipType">
                 Create Membership Type
             </a>

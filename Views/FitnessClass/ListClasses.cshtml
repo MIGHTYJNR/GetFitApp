@@ -51,10 +51,10 @@
                     </td>
                     <td>
                         <form asp-action="DeleteClass" asp-route-id="@fitnessClass.Id" method="post">
-                            <a class="btn btn-primary btn-sm mb-1" asp-action="UpdateClass"
+                            <a class="btn btn-primary btn-sm mb-1 rounded-pill" asp-action="UpdateClass"
                                asp-controller="FitnessClass" asp-route-id="@fitnessClass.Id">Update</a>
 
-                            <button type="submit" class="btn btn-danger btn-sm mb-1"
+                            <button type="submit" class="btn btn-danger btn-sm mb-1 rounded-pill"
                                     onclick="return confirm('Are you sure you want to delete @fitnessClass.Name class')">
                                 Delete
                             </button>
@@ -65,7 +65,7 @@
         </tbody>
     </table>
 
-    <a class="btn btn-primary btn-sm mb-3" asp-controller="FitnessClass" asp-action="CreateFitnessClass">
+    <a class="btn btn-primary btn-sm mb-3 rounded-pill" asp-controller="FitnessClass" asp-action="CreateFitnessClass">
         Add new fitness class
    </a>
 }
@@ -79,7 +79,7 @@ else
             <h6 class="card-title">
                 Use the button below to create a fitness class
             </h6>
-            <a class="btn btn-primary" style="width:auto"
+            <a class="btn btn-primary rounded-pill" style="width:auto"
                asp-controller="FitnessClass" asp-action="CreateFitnessClass">
                 Create Fitness Class
             </a>

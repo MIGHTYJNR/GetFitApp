@@ -38,15 +38,15 @@
                     <td>@user.Email</td>
                     <td>
                         <form asp-action="DeleteUser" asp-route-id="@user.Id" method="post">
-                            <a asp-action="EditUser" asp-controller="Administration" asp-route-id="@user.Id" class="btn btn-primary btn-sm">Edit</a>
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete user: @user.UserName')">Delete</button>
+                            <a asp-action="EditUser" asp-controller="Administration" asp-route-id="@user.Id" class="btn btn-primary btn-sm rounded-pill">Edit</a>
+                            <button type="submit" class="btn btn-danger btn-sm rounded-pill" onclick="return confirm('Are you sure you want to delete user: @user.UserName')">Delete</button>
                         </form>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
-    <a asp-controller="Auth" asp-action="SignUp" class="btn btn-primary mb-3 btn-sm">
+    <a asp-controller="Auth" asp-action="SignUp" class="btn btn-primary mb-3 btn-sm rounded-pill">
         Add new user
     </a>
 }
@@ -60,7 +60,7 @@ else
             <h5 class="card-title">
                 Use the button below to add a new user
             </h5>
-            <a class="btn btn-primary mb-3" style="width:auto" asp-controller="Auth"
+            <a class="btn btn-primary mb-3 rounded-pill" style="width:auto" asp-controller="Auth"
                asp-action="SignUp">Add new user</a>
         </div>
     </div>
